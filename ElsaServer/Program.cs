@@ -43,6 +43,28 @@ builder.Services.AddElsa(elsa =>
 
     // Register custom workflows from the application, if any.
     elsa.AddWorkflowsFrom<Program>();
+
+    elsa.UseEmail(email =>
+    {
+        email.ConfigureOptions = options =>
+        {
+            options.Host = "localhost";
+            options.Port = 2525;
+        };
+    });
+
+    elsa.UseWebhooks(webhooks =>
+    {
+        webhooks.WebhookOptions = options =>
+        {
+            builder.Configuration.GetSection("Webhooks").Bind(options);
+        };
+
+        webhooks.HttpClientBuilder = (httpClientBuilder) =>
+        {
+            httpClientBuilder.AddDefaultLogger();
+        };
+    });
 });
 
 // Configure CORS to allow designer app hosted on a different origin to invoke the APIs.
