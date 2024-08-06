@@ -17,14 +17,32 @@ public class HomeController(OnboardingDbContext dbContext, ElsaClient elsaClient
         return View(model);
     }
     
-    public async Task<IActionResult> CompleteTask(int taskId, CancellationToken cancellationToken)
+    public async Task<IActionResult> Approve(int taskId, CancellationToken cancellationToken)
     {
         var task = dbContext.Tasks.FirstOrDefault(x => x.Id == taskId);
 
         if (task == null)
             return NotFound();
 
-        await elsaClient.ReportTaskCompletedAsync(task.ExternalId, cancellationToken: cancellationToken);
+        await elsaClient.ReportTaskCompletedAsync(task.ExternalId, result: new HRReviewResult { Approved = true }, cancellationToken: cancellationToken);
+
+        task.IsCompleted = true;
+        task.CompletedAt = DateTimeOffset.Now;
+
+        dbContext.Tasks.Update(task);
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        return RedirectToAction("Index");
+    }
+
+    public async Task<IActionResult> Reject(int taskId, CancellationToken cancellationToken)
+    {
+        var task = dbContext.Tasks.FirstOrDefault(x => x.Id == taskId);
+
+        if (task == null)
+            return NotFound();
+
+        await elsaClient.ReportTaskCompletedAsync(task.ExternalId, result: new HRReviewResult { Approved = false }, cancellationToken: cancellationToken);
 
         task.IsCompleted = true;
         task.CompletedAt = DateTimeOffset.Now;
@@ -45,4 +63,9 @@ public class HomeController(OnboardingDbContext dbContext, ElsaClient elsaClient
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+}
+
+public class HRReviewResult
+{
+    public bool Approved { get; set; }
 }

@@ -1,0 +1,300 @@
+{
+  "id": "b0a17815900b3070",
+  "definitionId": "absence",
+  "name": "Absence Request",
+  "description": "",
+  "createdAt": "2024-08-06T22:52:30.6608123+00:00",
+  "version": 3,
+  "toolVersion": "3.0.0.0",
+  "variables": [
+    {
+      "id": "bd549b6479e7d3be",
+      "name": "Employee",
+      "typeName": "Object",
+      "isArray": false,
+      "value": "",
+      "storageDriverTypeName": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core"
+    },
+    {
+      "id": "8bc0dd7cae375bde",
+      "name": "Date",
+      "typeName": "DateTime",
+      "isArray": false,
+      "storageDriverTypeName": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core"
+    },
+    {
+      "id": "b1fd710ed67a41b8",
+      "name": "HRReviewResult",
+      "typeName": "Object",
+      "isArray": false,
+      "value": "",
+      "storageDriverTypeName": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core"
+    },
+    {
+      "id": "978dab73c151196f",
+      "name": "LineManagerReviewResult",
+      "typeName": "Object",
+      "isArray": false,
+      "storageDriverTypeName": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core"
+    }
+  ],
+  "inputs": [],
+  "outputs": [],
+  "outcomes": [],
+  "customProperties": {},
+  "isReadonly": false,
+  "isSystem": false,
+  "isLatest": true,
+  "isPublished": true,
+  "options": { "autoUpdateConsumingWorkflows": false },
+  "root": {
+    "id": "4fcee5c53a7d231b",
+    "nodeId": "Workflow1:4fcee5c53a7d231b",
+    "name": "HR Review Approved",
+    "type": "Elsa.Flowchart",
+    "version": 1,
+    "customProperties": {
+      "source": "FlowchartJsonConverter.cs:45",
+      "notFoundConnections": [],
+      "canStartWorkflow": false,
+      "runAsynchronously": false
+    },
+    "metadata": {},
+    "activities": [
+      {
+        "id": "8eb74ad977be6495",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:8eb74ad977be6495",
+        "name": "Start1",
+        "type": "Elsa.Start",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": -92.01043701171875,
+              "y": 153.0078125
+            },
+            "size": {
+              "width": 101.875,
+              "height": 49.333335876464844
+            }
+          }
+        }
+      },
+      {
+        "variable": {
+          "id": "8bc0dd7cae375bde",
+          "name": "Date",
+          "typeName": "DateTime",
+          "storageDriverTypeName": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core"
+        },
+        "value": {
+          "typeName": "Object",
+          "expression": {
+            "type": "JavaScript",
+            "value": "getInput(\u0022Date\u0022)"
+          }
+        },
+        "id": "eb7f9774f10d065d",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:eb7f9774f10d065d",
+        "name": "SetVariable2",
+        "type": "Elsa.SetVariable",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 157.5546875,
+              "y": 103.0078125
+            },
+            "size": {
+              "width": 245.109375,
+              "height": 50
+            }
+          },
+          "displayText": "Set Date from Input"
+        }
+      },
+      {
+        "variable": {
+          "id": "bd549b6479e7d3be",
+          "name": "Employee",
+          "typeName": "Object",
+          "storageDriverTypeName": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core"
+        },
+        "value": {
+          "typeName": "Object",
+          "expression": {
+            "type": "JavaScript",
+            "value": "getInput(\u0022Employee\u0022)"
+          }
+        },
+        "id": "a2f276be6a01814b",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:a2f276be6a01814b",
+        "name": "SetVariable1",
+        "type": "Elsa.SetVariable",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 157.5546875,
+              "y": 223.0078125
+            },
+            "size": {
+              "width": 245.109375,
+              "height": 50
+            }
+          },
+          "displayText": "Set Employee from Input"
+        }
+      },
+      {
+        "taskName": {
+          "typeName": "String",
+          "expression": {
+            "type": "Literal",
+            "value": "HRReviewRequest"
+          }
+        },
+        "payload": {
+          "typeName": "System.Collections.Generic.IDictionary\u00602[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
+          "expression": {
+            "type": "JavaScript",
+            "value": "return {\n    employee: getEmployee(),\n    date: getDate(),\n    description: \u0022Request HR Review\u0022\n}"
+          }
+        },
+        "result": {
+          "typeName": "Object",
+          "memoryReference": { "id": "b1fd710ed67a41b8" }
+        },
+        "id": "7bd963bd816f124e",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:7bd963bd816f124e",
+        "name": "RunTask2",
+        "type": "Elsa.RunTask",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 1264,
+              "y": 152.67448043823242
+            },
+            "size": {
+              "width": 223.265625,
+              "height": 50
+            }
+          },
+          "displayText": "Request HR Review"
+        }
+      },
+      {
+        "taskName": {
+          "typeName": "String",
+          "expression": {
+            "type": "Literal",
+            "value": "LineManagerReviewRequest"
+          }
+        },
+        "payload": {
+          "typeName": "System.Collections.Generic.IDictionary\u00602[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
+          "expression": {
+            "type": "JavaScript",
+            "value": "return {\n    employee: getEmployee(),\n    date: getDate(),\n    description: \u0022Request Line Manager Review\u0022\n}"
+          }
+        },
+        "result": {
+          "typeName": "Object",
+          "memoryReference": { "id": "978dab73c151196f" }
+        },
+        "id": "b39d18dd92744edd",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:b39d18dd92744edd",
+        "name": "RunTask1",
+        "type": "Elsa.RunTask",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 740,
+              "y": 153.0078125
+            },
+            "size": {
+              "width": 279.91668701171875,
+              "height": 50
+            }
+          },
+          "displayText": "Request LineManager Review"
+        }
+      }
+    ],
+    "variables": [],
+    "connections": [
+      {
+        "source": {
+          "activity": "b39d18dd92744edd",
+          "port": "Done"
+        },
+        "target": {
+          "activity": "7bd963bd816f124e",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "8eb74ad977be6495",
+          "port": "Done"
+        },
+        "target": {
+          "activity": "eb7f9774f10d065d",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "8eb74ad977be6495",
+          "port": "Done"
+        },
+        "target": {
+          "activity": "a2f276be6a01814b",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "eb7f9774f10d065d",
+          "port": "Done"
+        },
+        "target": {
+          "activity": "b39d18dd92744edd",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "a2f276be6a01814b",
+          "port": "Done"
+        },
+        "target": {
+          "activity": "b39d18dd92744edd",
+          "port": "In"
+        }
+      }
+    ]
+  }
+}
