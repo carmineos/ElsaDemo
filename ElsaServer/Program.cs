@@ -1,6 +1,7 @@
 using Elsa.EntityFrameworkCore.Modules.Management;
 using Elsa.EntityFrameworkCore.Modules.Runtime;
 using Elsa.Extensions;
+using ElsaServer;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddElsa(elsa =>
@@ -44,6 +45,8 @@ builder.Services.AddElsa(elsa =>
     // Register custom workflows from the application, if any.
     elsa.AddWorkflowsFrom<Program>();
 
+    elsa.UseJavaScript();
+
     elsa.UseEmail(email =>
     {
         email.ConfigureOptions = options =>
@@ -62,10 +65,12 @@ builder.Services.AddElsa(elsa =>
 
         webhooks.HttpClientBuilder = (httpClientBuilder) =>
         {
-            httpClientBuilder.AddDefaultLogger();
+            httpClientBuilder.AddHttpMessageHandler<TestDelegatingHandler>();
         };
     });
 });
+
+builder.Services.AddTransient<TestDelegatingHandler>();
 
 // Configure CORS to allow designer app hosted on a different origin to invoke the APIs.
 builder.Services.AddCors(cors => cors
