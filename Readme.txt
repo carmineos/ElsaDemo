@@ -1,0 +1,3 @@
+docker run -t -i -e ASPNETCORE_ENVIRONMENT='Development' -e HTTP_PORTS=8080 -e ELSASERVER__URL=https://localhost:5001/elsa/api -p 14000:8080 elsaworkflows/elsa-studio-v3:latest
+
+curl --location 'https://localhost:5001/elsa/api/workflow-definitions/onboarding/execute' --header 'Content-Type: application/json'  --header 'Authorization: ApiKey 00000000-0000-0000-0000-000000000000' --data-raw '{ "input": { "Employee": { "Name": "Alice Smith", "Email": "alice.smith@acme.com" }}}'
