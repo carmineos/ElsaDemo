@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElsaServer", "ElsaServer\El
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Onboarding", "Onboarding\Onboarding.csproj", "{2942817A-165A-4543-817D-440D277F43FE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElsaStudioBlazorServer", "ElsaStudioBlazorServer\ElsaStudioBlazorServer.csproj", "{63AFDD1E-8048-4461-87DC-F8D73538718C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2942817A-165A-4543-817D-440D277F43FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2942817A-165A-4543-817D-440D277F43FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2942817A-165A-4543-817D-440D277F43FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63AFDD1E-8048-4461-87DC-F8D73538718C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63AFDD1E-8048-4461-87DC-F8D73538718C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63AFDD1E-8048-4461-87DC-F8D73538718C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63AFDD1E-8048-4461-87DC-F8D73538718C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
