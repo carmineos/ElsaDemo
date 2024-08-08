@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Onboarding.Data;
 
@@ -10,9 +11,11 @@ using Onboarding.Data;
 namespace Onboarding.Migrations
 {
     [DbContext(typeof(OnboardingDbContext))]
-    partial class OnboardingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240808121646_WorkflowDomainModels")]
+    partial class WorkflowDomainModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.7");
@@ -21,12 +24,6 @@ namespace Onboarding.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CompletedAtUtc")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("CreatorId")

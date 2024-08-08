@@ -16,7 +16,7 @@ public class HomeController(OnboardingDbContext dbContext, ElsaClient elsaClient
         var model = new IndexViewModel(tasks);
         return View(model);
     }
-    
+
     public async Task<IActionResult> Approve(int taskId, CancellationToken cancellationToken)
     {
         var task = dbContext.Tasks.FirstOrDefault(x => x.Id == taskId);
