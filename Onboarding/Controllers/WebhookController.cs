@@ -14,7 +14,6 @@ public class WebhookController(OnboardingDbContext dbContext) : Controller
     {
         var payload = webhookEvent.Payload;
         var taskPayload = payload.TaskPayload;
-        var employee = taskPayload.Employee;
 
         var task = new OnboardingTask
         {
@@ -22,8 +21,8 @@ public class WebhookController(OnboardingDbContext dbContext) : Controller
             ExternalId = payload.TaskId,
             Name = payload.TaskName,
             Description = taskPayload.Description,
-            EmployeeEmail = employee.Email,
-            EmployeeName = employee.Name,
+            EmployeeEmail = "",
+            EmployeeName = "",
             CreatedAt = DateTimeOffset.Now
         };
 

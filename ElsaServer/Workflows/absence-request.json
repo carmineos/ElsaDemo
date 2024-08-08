@@ -1,10 +1,10 @@
 {
-  "id": "a29d0e81a7a4796f",
+  "id": "484cc7311a045d8a",
   "definitionId": "absence",
   "name": "Absence Request",
   "description": "",
-  "createdAt": "2024-08-06T23:01:49.971089+00:00",
-  "version": 4,
+  "createdAt": "2024-08-08T16:56:43.7601094+00:00",
+  "version": 20,
   "toolVersion": "3.0.0.0",
   "variables": [
     {
@@ -13,13 +13,6 @@
       "typeName": "Object",
       "isArray": false,
       "value": "",
-      "storageDriverTypeName": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core"
-    },
-    {
-      "id": "8bc0dd7cae375bde",
-      "name": "Date",
-      "typeName": "DateTime",
-      "isArray": false,
       "storageDriverTypeName": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core"
     },
     {
@@ -36,6 +29,13 @@
       "typeName": "Object",
       "isArray": false,
       "storageDriverTypeName": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core"
+    },
+    {
+      "id": "4720df22c0e42691",
+      "name": "HRManagerReviewResult",
+      "typeName": "Object",
+      "isArray": false,
+      "storageDriverTypeName": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core"
     }
   ],
   "inputs": [],
@@ -46,26 +46,28 @@
   "isSystem": false,
   "isLatest": true,
   "isPublished": true,
-  "options": { "autoUpdateConsumingWorkflows": false },
+  "options": {
+    "usableAsActivity": false,
+    "autoUpdateConsumingWorkflows": false
+  },
   "root": {
-    "id": "4fcee5c53a7d231b",
-    "nodeId": "Workflow1:4fcee5c53a7d231b",
-    "name": "HR Review Approved",
     "type": "Elsa.Flowchart",
     "version": 1,
+    "id": "4fcee5c53a7d231b",
+    "nodeId": "Workflow1:4fcee5c53a7d231b",
+    "metadata": {},
     "customProperties": {
       "source": "FlowchartJsonConverter.cs:45",
       "notFoundConnections": [],
       "canStartWorkflow": false,
       "runAsynchronously": false
     },
-    "metadata": {},
     "activities": [
       {
-        "id": "8eb74ad977be6495",
-        "nodeId": "Workflow1:4fcee5c53a7d231b:8eb74ad977be6495",
-        "name": "Start1",
-        "type": "Elsa.Start",
+        "id": "8172a7ef765c214e",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:8172a7ef765c214e",
+        "name": "End1",
+        "type": "Elsa.End",
         "version": 1,
         "customProperties": {
           "canStartWorkflow": false,
@@ -74,11 +76,11 @@
         "metadata": {
           "designer": {
             "position": {
-              "x": -92.01043701171875,
-              "y": 153.0078125
+              "x": 3200,
+              "y": 440
             },
             "size": {
-              "width": 101.875,
+              "width": 94.0625,
               "height": 49.333335876464844
             }
           }
@@ -111,8 +113,8 @@
         "metadata": {
           "designer": {
             "position": {
-              "x": 217.5546875,
-              "y": 152.67448043823242
+              "x": 364.4296875,
+              "y": 40
             },
             "size": {
               "width": 245.109375,
@@ -123,15 +125,38 @@
         }
       },
       {
+        "id": "8eb74ad977be6495",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:8eb74ad977be6495",
+        "name": "Start1",
+        "type": "Elsa.Start",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 85.9375,
+              "y": 40
+            },
+            "size": {
+              "width": 101.875,
+              "height": 49.333335876464844
+            }
+          }
+        }
+      },
+      {
         "taskName": {
           "typeName": "String",
           "expression": {
             "type": "Literal",
-            "value": "LineManagerReviewRequest"
+            "value": "LineManagerReviewTask"
           }
         },
         "payload": {
-          "typeName": "System.Collections.Generic.IDictionary\u00602[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
+          "typeName": "ObjectDictionary",
           "expression": {
             "type": "JavaScript",
             "value": "return {\n    request: getRequest(),\n    description: \u0022Request Line Manager Review\u0022\n}"
@@ -143,7 +168,7 @@
         },
         "id": "b39d18dd92744edd",
         "nodeId": "Workflow1:4fcee5c53a7d231b:b39d18dd92744edd",
-        "name": "RunTask1",
+        "name": "LineManagerReview",
         "type": "Elsa.RunTask",
         "version": 1,
         "customProperties": {
@@ -153,15 +178,48 @@
         "metadata": {
           "designer": {
             "position": {
-              "x": 740,
-              "y": 152.67448043823242
+              "x": 711.9427185058594,
+              "y": 39.66666793823242
             },
             "size": {
               "width": 279.91668701171875,
               "height": 50
             }
           },
-          "displayText": "Request LineManager Review"
+          "displayText": "Line Manager Review"
+        }
+      },
+      {
+        "condition": {
+          "typeName": "Boolean",
+          "expression": {
+            "type": "JavaScript",
+            "value": "return JSON.parse(getVariable(\u0022LineManagerReviewResult\u0022))[\u0022approved\u0022] === true;"
+          }
+        },
+        "id": "ead62270aecb0cc1",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:ead62270aecb0cc1",
+        "name": "FlowDecision1",
+        "type": "Elsa.FlowDecision",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 1101.4948120117188,
+              "y": 40
+            },
+            "size": {
+              "width": 269.71875,
+              "height": 49.333335876464844
+            }
+          },
+          "displayText": "Check Line Manager Review",
+          "description": "Checks if the line manager approved the request",
+          "showDescription": false
         }
       },
       {
@@ -169,11 +227,11 @@
           "typeName": "String",
           "expression": {
             "type": "Literal",
-            "value": "HRReviewRequest"
+            "value": "HRReviewTask"
           }
         },
         "payload": {
-          "typeName": "System.Collections.Generic.IDictionary\u00602[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
+          "typeName": "ObjectDictionary",
           "expression": {
             "type": "JavaScript",
             "value": "return {\n    request: getRequest(),\n    description: \u0022Request HR Review\u0022\n}"
@@ -185,7 +243,7 @@
         },
         "id": "7bd963bd816f124e",
         "nodeId": "Workflow1:4fcee5c53a7d231b:7bd963bd816f124e",
-        "name": "RunTask2",
+        "name": "HRReview",
         "type": "Elsa.RunTask",
         "version": 1,
         "customProperties": {
@@ -195,27 +253,261 @@
         "metadata": {
           "designer": {
             "position": {
-              "x": 1264,
-              "y": 152.67448043823242
+              "x": 1442.7213745117188,
+              "y": 39.66666793823242
             },
             "size": {
               "width": 223.265625,
               "height": 50
             }
           },
-          "displayText": "Request HR Review"
+          "displayText": "HR Review"
+        }
+      },
+      {
+        "condition": {
+          "typeName": "Boolean",
+          "expression": {
+            "type": "JavaScript",
+            "value": "return JSON.parse(getVariable(\u0022HRReviewResult\u0022))[\u0022approved\u0022] === true;"
+          }
+        },
+        "id": "6f213259b4bd92cb",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:6f213259b4bd92cb",
+        "name": "FlowDecision2",
+        "type": "Elsa.FlowDecision",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 1803.9479370117188,
+              "y": 40
+            },
+            "size": {
+              "width": 192.64584350585938,
+              "height": 49.333335876464844
+            }
+          },
+          "displayText": "Check HR Review",
+          "description": "Checks if the HR approved the request"
+        }
+      },
+      {
+        "condition": {
+          "typeName": "Boolean",
+          "expression": {
+            "type": "JavaScript",
+            "value": "return JSON.parse(getVariable(\u0022HRManagerReviewResult\u0022))[\u0022approved\u0022] === true;"
+          }
+        },
+        "id": "eebf46d8095442f3",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:eebf46d8095442f3",
+        "name": "FlowDecision3",
+        "type": "Elsa.FlowDecision",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 2667.9479370117188,
+              "y": 20.333332061767578
+            },
+            "size": {
+              "width": 260.88543701171875,
+              "height": 49.333335876464844
+            }
+          },
+          "displayText": "Check HR Manager Review",
+          "description": "Checks if the HR approved the request"
+        }
+      },
+      {
+        "taskName": {
+          "typeName": "String",
+          "expression": {
+            "type": "Literal",
+            "value": "HRManagerReview"
+          }
+        },
+        "payload": {
+          "typeName": "ObjectDictionary",
+          "expression": {
+            "type": "JavaScript",
+            "value": "return {\n    request: getRequest(),\n    description: \u0022Request HR Manager Review\u0022\n}"
+          }
+        },
+        "result": {
+          "typeName": "Object",
+          "memoryReference": { "id": "4720df22c0e42691" }
+        },
+        "id": "44f8caca769fcedf",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:44f8caca769fcedf",
+        "name": "HRManagerReview",
+        "type": "Elsa.RunTask",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 2200,
+              "y": 20
+            },
+            "size": {
+              "width": 279.91668701171875,
+              "height": 50
+            }
+          },
+          "displayText": "HR Manager Review"
+        }
+      },
+      {
+        "eventName": {
+          "typeName": "String",
+          "expression": {
+            "type": "Literal",
+            "value": "AbsenceRequestApproved"
+          }
+        },
+        "correlationId": null,
+        "isLocalEvent": null,
+        "payload": {
+          "typeName": "Object",
+          "expression": {
+            "type": "JavaScript",
+            "value": "return {\r\n    request: getRequest()\r\n}"
+          }
+        },
+        "id": "35aa941df05f8142",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:35aa941df05f8142",
+        "name": "PublishEvent1",
+        "type": "Elsa.PublishEvent",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 3409.542724609375,
+              "y": 56.686195373535156
+            },
+            "size": {
+              "width": 164.375,
+              "height": 16.666667938232422
+            }
+          }
         }
       }
     ],
-    "variables": [],
     "connections": [
+      {
+        "source": {
+          "activity": "eebf46d8095442f3",
+          "port": "True"
+        },
+        "target": {
+          "activity": "35aa941df05f8142",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "6f213259b4bd92cb",
+          "port": "True"
+        },
+        "target": {
+          "activity": "44f8caca769fcedf",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "44f8caca769fcedf",
+          "port": "Done"
+        },
+        "target": {
+          "activity": "eebf46d8095442f3",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "eebf46d8095442f3",
+          "port": "False"
+        },
+        "target": {
+          "activity": "8172a7ef765c214e",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "ead62270aecb0cc1",
+          "port": "True"
+        },
+        "target": {
+          "activity": "7bd963bd816f124e",
+          "port": "In"
+        }
+      },
       {
         "source": {
           "activity": "b39d18dd92744edd",
           "port": "Done"
         },
         "target": {
+          "activity": "ead62270aecb0cc1",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
           "activity": "7bd963bd816f124e",
+          "port": "Done"
+        },
+        "target": {
+          "activity": "6f213259b4bd92cb",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "ead62270aecb0cc1",
+          "port": "False"
+        },
+        "target": {
+          "activity": "8172a7ef765c214e",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "6f213259b4bd92cb",
+          "port": "False"
+        },
+        "target": {
+          "activity": "8172a7ef765c214e",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "a2f276be6a01814b",
+          "port": "Done"
+        },
+        "target": {
+          "activity": "b39d18dd92744edd",
           "port": "In"
         }
       },
@@ -226,16 +518,6 @@
         },
         "target": {
           "activity": "a2f276be6a01814b",
-          "port": "In"
-        }
-      },
-      {
-        "source": {
-          "activity": "a2f276be6a01814b",
-          "port": "Done"
-        },
-        "target": {
-          "activity": "b39d18dd92744edd",
           "port": "In"
         }
       }
