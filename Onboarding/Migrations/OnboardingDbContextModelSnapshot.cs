@@ -50,9 +50,6 @@ namespace Onboarding.Migrations
                     b.Property<Guid>("WorkflowRequestId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("WorklowRequestId")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.HasIndex("WorkflowRequestId");

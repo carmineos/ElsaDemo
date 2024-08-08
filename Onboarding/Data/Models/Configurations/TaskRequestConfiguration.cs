@@ -31,7 +31,7 @@ public class TaskRequestConfiguration : IEntityTypeConfiguration<TaskRequest>
 
         builder.HasOne(x => x.WorkflowRequest)
             .WithMany(x => x.TaskRequests)
-            .HasForeignKey(x => x.WorklowRequestId)
+            .HasForeignKey(x => x.WorkflowRequestId)
             .IsRequired();
     }
 }

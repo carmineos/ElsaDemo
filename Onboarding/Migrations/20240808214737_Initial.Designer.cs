@@ -11,8 +11,8 @@ using Onboarding.Data;
 namespace Onboarding.Migrations
 {
     [DbContext(typeof(OnboardingDbContext))]
-    [Migration("20240808212801_UpdateTaskRequests4")]
-    partial class UpdateTaskRequests4
+    [Migration("20240808214737_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,9 +51,6 @@ namespace Onboarding.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("WorkflowRequestId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("WorklowRequestId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

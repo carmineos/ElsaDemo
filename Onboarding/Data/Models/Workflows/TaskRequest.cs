@@ -28,7 +28,7 @@ public class TaskRequest
     /// <summary>
     /// The ID of the onboarding process that the task belongs to.
     /// </summary>
-    public Guid WorklowRequestId { get; set; } = default!;
+    public Guid WorkflowRequestId { get; set; } = default!;
 
     /// <summary>
     /// Whether the task has been completed.
