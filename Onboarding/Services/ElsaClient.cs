@@ -34,19 +34,23 @@ public class ElsaClient(HttpClient httpClient)
 
         response.EnsureSuccessStatusCode();
 
-        var result = await response.Content.ReadFromJsonAsync<ExecuteWorkflowResponse>(cancellationToken);
+        var result = await response.Content.ReadFromJsonAsync<WorkflowInstance>(cancellationToken);
 
-        return result!.WorkflowState.Id;
+        return result!.Id;
+    }
+
+    public async Task<WorkflowInstance?> GetWorkflowInstanceAsync(string workflowInstanceId, CancellationToken cancellationToken = default)
+    {
+        var url = new Uri($"workflow-instances/{workflowInstanceId}", UriKind.Relative);
+
+        var response = await httpClient.GetFromJsonAsync<WorkflowInstance>(url, cancellationToken);
+
+        return response;
     }
 }
 
 
-public class ExecuteWorkflowResponse
-{
-    public WorkflowState WorkflowState { get; set; } = default!;
-}
-
-public class WorkflowState
+public class WorkflowInstance
 {
     public string Id { get; set; } = default!;
     public string DefinitionId { get; set; } = default!;

@@ -53,6 +53,25 @@ public class WorkflowsController(OnboardingDbContext dbContext, ElsaClient elsaC
         return Ok(workflowRequest.Id);
     }
 
+    [HttpGet("{workflowRequestId:guid}")]
+    public async Task<IActionResult> GetById(Guid workflowRequestId, CancellationToken cancellationToken)
+    {
+        var workflowRequest = await _dbContext.WorkflowRequests
+            .AsNoTracking()
+            .Include(r => r.WorkflowTemplate)
+                .ThenInclude(r => r.WorkflowType)
+            .SingleOrDefaultAsync(r => r.Id == workflowRequestId, cancellationToken);
+
+        if (workflowRequest is null)
+        {
+            return NotFound();
+        }
+
+        var workflowInstance = await _elsaClient.GetWorkflowInstanceAsync(workflowRequest.WorkflowInstanceId, cancellationToken);
+
+        return Ok(workflowRequest);
+    }
+
     [HttpPost("submit")]
     public async Task<IActionResult> Submit(StartWorkflowRequest request, CancellationToken cancellationToken)
     {

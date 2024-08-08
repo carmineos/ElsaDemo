@@ -12,9 +12,8 @@
     <table class="table table-bordered table-hover">
         <thead class="table-light">
             <tr>
-                <th scope="col">Task Id</th>
+                <th scope="col">Id</th>
                 <th scope="col">Workflow Type</th>
-                <th scope="col">Name</th>
                 <th scope="col">Description</th>
                 <th scope="col">Creator</th>
                 <th scope="col">Requestor</th>
@@ -25,9 +24,8 @@
             @foreach (var task in Model.Tasks)
             {
                 <tr>
-                    <th scope="row">@task.Id</th>
-                    <td>@task.WorkflowRequest.WorkflowTemplate.WorkflowType.Name</td>
-                    <td>@task.Name</td>
+                    <th scope="row">@task.WorkflowRequest.Id</th>
+                    <td>@task.WorkflowRequest.WorkflowTemplate.WorkflowType.Description</td>
                     <td>@task.Description</td>
                     <td>@task.WorkflowRequest.CreatorId</td>
                     <td>@task.WorkflowRequest.RequestorId</td>
