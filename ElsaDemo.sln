@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Onboarding", "Onboarding\On
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElsaStudioBlazorServer", "ElsaStudioBlazorServer\ElsaStudioBlazorServer.csproj", "{63AFDD1E-8048-4461-87DC-F8D73538718C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonSchemaBuilder", "JsonSchemaBuilder\JsonSchemaBuilder.csproj", "{6A1F132F-FBF1-43F8-AC22-659271E9D410}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +29,15 @@ Global
 		{63AFDD1E-8048-4461-87DC-F8D73538718C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63AFDD1E-8048-4461-87DC-F8D73538718C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63AFDD1E-8048-4461-87DC-F8D73538718C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A1F132F-FBF1-43F8-AC22-659271E9D410}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A1F132F-FBF1-43F8-AC22-659271E9D410}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A1F132F-FBF1-43F8-AC22-659271E9D410}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A1F132F-FBF1-43F8-AC22-659271E9D410}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5BFCC53B-EA3B-464F-AD77-B28B389786B8}
 	EndGlobalSection
 EndGlobal
