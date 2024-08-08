@@ -36,7 +36,7 @@ public class ElsaClient(HttpClient httpClient)
 
         var result = await response.Content.ReadFromJsonAsync<WorkflowInstance>(cancellationToken);
 
-        return result!.Id;
+        return result!.WorkflowState.Id;
     }
 
     public async Task<WorkflowInstance?> GetWorkflowInstanceAsync(string workflowInstanceId, CancellationToken cancellationToken = default)
@@ -51,6 +51,11 @@ public class ElsaClient(HttpClient httpClient)
 
 
 public class WorkflowInstance
+{
+    public WorkflowState WorkflowState { get; set; } = default!;
+}
+
+public class WorkflowState
 {
     public string Id { get; set; } = default!;
     public string DefinitionId { get; set; } = default!;

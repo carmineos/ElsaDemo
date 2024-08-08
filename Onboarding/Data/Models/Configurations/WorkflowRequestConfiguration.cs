@@ -23,9 +23,5 @@ public class WorkflowRequestConfiguration : IEntityTypeConfiguration<WorkflowReq
 
         builder.Property(x => x.RequestJsonData)
             .IsRequired();
-
-        builder.HasMany(x => x.TaskRequests)
-            .WithOne(x => x.WorkflowRequest)
-            .HasForeignKey(x => x.WorklowRequestId);
     }
 }

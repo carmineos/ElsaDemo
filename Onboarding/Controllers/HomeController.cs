@@ -24,9 +24,9 @@ public class HomeController(OnboardingDbContext dbContext, ElsaClient elsaClient
         return View(model);
     }
 
-    public async Task<IActionResult> Approve(int taskId, CancellationToken cancellationToken)
+    public async Task<IActionResult> Approve(Guid taskId, CancellationToken cancellationToken)
     {
-        var task = dbContext.TaskRequests.FirstOrDefault(x => x.Id == taskId);
+        var task = await dbContext.TaskRequests.FirstOrDefaultAsync(x => x.Id == taskId, cancellationToken);
 
         if (task == null)
             return NotFound();
@@ -43,9 +43,9 @@ public class HomeController(OnboardingDbContext dbContext, ElsaClient elsaClient
         return RedirectToAction("Index");
     }
 
-    public async Task<IActionResult> Reject(int taskId, CancellationToken cancellationToken)
+    public async Task<IActionResult> Reject(Guid taskId, CancellationToken cancellationToken)
     {
-        var task = dbContext.TaskRequests.FirstOrDefault(x => x.Id == taskId);
+        var task = await dbContext.TaskRequests.FirstOrDefaultAsync(x => x.Id == taskId, cancellationToken);
 
         if (task == null)
             return NotFound();

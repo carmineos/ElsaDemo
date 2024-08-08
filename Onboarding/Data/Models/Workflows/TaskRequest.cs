@@ -8,18 +8,7 @@ public class TaskRequest
     /// <summary>
     /// The ID of the task.
     /// </summary>
-    public long Id { get; set; }
-
-    /// <summary>
-    /// An external ID that can be used to reference the task.
-    /// </summary>
-    public string ExternalTaskId { get; set; } = default!;
-
-    /// <summary>
-    /// The ID of the onboarding process that the task belongs to.
-    /// </summary>
-    public Guid WorklowRequestId { get; set; } = default!;
-
+    public Guid Id { get; set; }
 
     /// <summary>
     /// The name of the task.
@@ -31,12 +20,22 @@ public class TaskRequest
     /// </summary>
     public string Description { get; set; } = default!;
 
-    public Guid? CompletedBy { get; set; } = default!;
+    /// <summary>
+    /// An external ID that can be used to reference the task.
+    /// </summary>
+    public string ExternalTaskId { get; set; } = default!;
+
+    /// <summary>
+    /// The ID of the onboarding process that the task belongs to.
+    /// </summary>
+    public Guid WorklowRequestId { get; set; } = default!;
 
     /// <summary>
     /// Whether the task has been completed.
     /// </summary>
     public bool IsCompleted { get; set; }
+
+    public Guid? CompletedBy { get; set; } = default!;
 
     /// <summary>
     /// The date and time when the task was created.

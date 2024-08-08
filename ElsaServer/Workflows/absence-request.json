@@ -1,10 +1,10 @@
 {
-  "id": "c0a928a1c30a263b",
+  "id": "97df99b3f5e795de",
   "definitionId": "absence",
   "name": "Absence Request",
   "description": "",
-  "createdAt": "2024-08-08T16:58:55.9269441+00:00",
-  "version": 21,
+  "createdAt": "2024-08-08T21:06:49.4831375+00:00",
+  "version": 25,
   "toolVersion": "3.0.0.0",
   "variables": [
     {
@@ -47,7 +47,7 @@
   ],
   "inputs": [],
   "outputs": [],
-  "outcomes": [],
+  "outcomes": [ "Approved" ],
   "customProperties": {},
   "isReadonly": false,
   "isSystem": false,
@@ -71,29 +71,6 @@
     },
     "activities": [
       {
-        "id": "8172a7ef765c214e",
-        "nodeId": "Workflow1:4fcee5c53a7d231b:8172a7ef765c214e",
-        "name": "End1",
-        "type": "Elsa.End",
-        "version": 1,
-        "customProperties": {
-          "canStartWorkflow": false,
-          "runAsynchronously": false
-        },
-        "metadata": {
-          "designer": {
-            "position": {
-              "x": 2810.5209045410156,
-              "y": 118.00000190734863
-            },
-            "size": {
-              "width": 94.0625,
-              "height": 49.333335876464844
-            }
-          }
-        }
-      },
-      {
         "id": "8eb74ad977be6495",
         "nodeId": "Workflow1:4fcee5c53a7d231b:8eb74ad977be6495",
         "name": "Start1",
@@ -112,110 +89,6 @@
             "size": {
               "width": 101.875,
               "height": 49.333335876464844
-            }
-          }
-        }
-      },
-      {
-        "condition": {
-          "typeName": "Boolean",
-          "expression": {
-            "type": "JavaScript",
-            "value": "return JSON.parse(getVariable(\u0022LineManagerReviewResult\u0022))[\u0022approved\u0022] === true;"
-          }
-        },
-        "id": "ead62270aecb0cc1",
-        "nodeId": "Workflow1:4fcee5c53a7d231b:ead62270aecb0cc1",
-        "name": "FlowDecision1",
-        "type": "Elsa.FlowDecision",
-        "version": 1,
-        "customProperties": {
-          "canStartWorkflow": false,
-          "runAsynchronously": false
-        },
-        "metadata": {
-          "designer": {
-            "position": {
-              "x": 1111.7604370117188,
-              "y": 40
-            },
-            "size": {
-              "width": 269.71875,
-              "height": 49.333335876464844
-            }
-          },
-          "displayText": "Check Line Manager Review",
-          "description": "Checks if the line manager approved the request",
-          "showDescription": false
-        }
-      },
-      {
-        "condition": {
-          "typeName": "Boolean",
-          "expression": {
-            "type": "JavaScript",
-            "value": "return JSON.parse(getVariable(\u0022HRManagerReviewResult\u0022))[\u0022approved\u0022] === true;"
-          }
-        },
-        "id": "eebf46d8095442f3",
-        "nodeId": "Workflow1:4fcee5c53a7d231b:eebf46d8095442f3",
-        "name": "FlowDecision3",
-        "type": "Elsa.FlowDecision",
-        "version": 1,
-        "customProperties": {
-          "canStartWorkflow": false,
-          "runAsynchronously": false
-        },
-        "metadata": {
-          "designer": {
-            "position": {
-              "x": 2492.8906860351562,
-              "y": 40
-            },
-            "size": {
-              "width": 260.88543701171875,
-              "height": 49.333335876464844
-            }
-          },
-          "displayText": "Check HR Manager Review",
-          "description": "Checks if the HR approved the request"
-        }
-      },
-      {
-        "eventName": {
-          "typeName": "String",
-          "expression": {
-            "type": "Literal",
-            "value": "AbsenceRequestApproved"
-          }
-        },
-        "correlationId": null,
-        "isLocalEvent": null,
-        "payload": {
-          "typeName": "Object",
-          "expression": {
-            "type": "JavaScript",
-            "value": "return {\r\n    request: getRequest()\r\n}"
-          }
-        },
-        "id": "35aa941df05f8142",
-        "nodeId": "Workflow1:4fcee5c53a7d231b:35aa941df05f8142",
-        "name": "PublishEvent1",
-        "type": "Elsa.PublishEvent",
-        "version": 1,
-        "customProperties": {
-          "canStartWorkflow": false,
-          "runAsynchronously": false
-        },
-        "metadata": {
-          "designer": {
-            "position": {
-              "x": 2810.5209045410156,
-              "y": 40
-            },
-            "size": {
-              "width": 164.375,
-              "height": 16.666667938232422
             }
           }
         }
@@ -338,6 +211,71 @@
         }
       },
       {
+        "condition": {
+          "typeName": "Boolean",
+          "expression": {
+            "type": "JavaScript",
+            "value": "return JSON.parse(getVariable(\u0022LineManagerReviewResult\u0022))[\u0022approved\u0022] === true;"
+          }
+        },
+        "id": "ead62270aecb0cc1",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:ead62270aecb0cc1",
+        "name": "FlowDecision1",
+        "type": "Elsa.FlowDecision",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 1111.7604370117188,
+              "y": 40
+            },
+            "size": {
+              "width": 269.71875,
+              "height": 49.333335876464844
+            }
+          },
+          "displayText": "Check Line Manager Review",
+          "description": "Checks if the line manager approved the request",
+          "showDescription": false
+        }
+      },
+      {
+        "condition": {
+          "typeName": "Boolean",
+          "expression": {
+            "type": "JavaScript",
+            "value": "return JSON.parse(getVariable(\u0022HRReviewResult\u0022))[\u0022approved\u0022] === true;"
+          }
+        },
+        "id": "6f213259b4bd92cb",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:6f213259b4bd92cb",
+        "name": "FlowDecision2",
+        "type": "Elsa.FlowDecision",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 1776.2083587646484,
+              "y": 40
+            },
+            "size": {
+              "width": 192.64584350585938,
+              "height": 49.333335876464844
+            }
+          },
+          "displayText": "Check HR Review",
+          "description": "Checks if the HR approved the request"
+        }
+      },
+      {
         "taskName": {
           "typeName": "String",
           "expression": {
@@ -384,12 +322,12 @@
           "typeName": "Boolean",
           "expression": {
             "type": "JavaScript",
-            "value": "return JSON.parse(getVariable(\u0022HRReviewResult\u0022))[\u0022approved\u0022] === true;"
+            "value": "return JSON.parse(getVariable(\u0022HRManagerReviewResult\u0022))[\u0022approved\u0022] === true;"
           }
         },
-        "id": "6f213259b4bd92cb",
-        "nodeId": "Workflow1:4fcee5c53a7d231b:6f213259b4bd92cb",
-        "name": "FlowDecision2",
+        "id": "eebf46d8095442f3",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:eebf46d8095442f3",
+        "name": "FlowDecision3",
         "type": "Elsa.FlowDecision",
         "version": 1,
         "customProperties": {
@@ -399,15 +337,15 @@
         "metadata": {
           "designer": {
             "position": {
-              "x": 1776.2083587646484,
+              "x": 2492.8906860351562,
               "y": 40
             },
             "size": {
-              "width": 192.64584350585938,
+              "width": 260.88543701171875,
               "height": 49.333335876464844
             }
           },
-          "displayText": "Check HR Review",
+          "displayText": "Check HR Manager Review",
           "description": "Checks if the HR approved the request"
         }
       },
@@ -416,7 +354,7 @@
           "typeName": "String",
           "expression": {
             "type": "Literal",
-            "value": "HRManagerReview"
+            "value": "HRManagerReviewTask"
           }
         },
         "payload": {
@@ -437,7 +375,12 @@
         "version": 1,
         "customProperties": {
           "canStartWorkflow": false,
-          "runAsynchronously": false
+          "runAsynchronously": false,
+          "logPersistenceMode": {
+            "default": "Inherit",
+            "inputs": {},
+            "outputs": {}
+          }
         },
         "metadata": {
           "designer": {
@@ -451,6 +394,74 @@
             }
           },
           "displayText": "HR Manager Review"
+        }
+      },
+      {
+        "eventName": {
+          "typeName": "String",
+          "expression": {
+            "type": "Literal",
+            "value": "AbsenceRequestApproved"
+          }
+        },
+        "correlationId": null,
+        "isLocalEvent": null,
+        "payload": {
+          "typeName": "Object",
+          "expression": {
+            "type": "JavaScript",
+            "value": "return {\r\n    request: getRequest()\r\n}"
+          }
+        },
+        "id": "35aa941df05f8142",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:35aa941df05f8142",
+        "name": "AbsenceRequestApproved",
+        "type": "Elsa.PublishEvent",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false,
+          "logPersistenceMode": {
+            "default": "Inherit",
+            "inputs": {},
+            "outputs": {}
+          }
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 2810.5209045410156,
+              "y": 40
+            },
+            "size": {
+              "width": 266.0208435058594,
+              "height": 16.666667938232422
+            }
+          },
+          "displayText": "Absence Request Approved"
+        }
+      },
+      {
+        "id": "8172a7ef765c214e",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:8172a7ef765c214e",
+        "name": "End1",
+        "type": "Elsa.End",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 2810.5209045410156,
+              "y": 118.00000190734863
+            },
+            "size": {
+              "width": 94.0625,
+              "height": 49.333335876464844
+            }
+          }
         }
       }
     ],

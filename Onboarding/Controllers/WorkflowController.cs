@@ -43,7 +43,8 @@ public class WorkflowsController(OnboardingDbContext dbContext, ElsaClient elsaC
             CreatorId = Guid.Empty,
             RequestorId = Guid.Empty,
             RequestJsonData = request.RequestData.GetRawText(),
-            WorkflowInstanceId = null
+            WorkflowInstanceId = null,
+            CreatedAtUtc = DateTimeOffset.Now,
         };
 
         _dbContext.Add(workflowRequest);
@@ -58,6 +59,7 @@ public class WorkflowsController(OnboardingDbContext dbContext, ElsaClient elsaC
     {
         var workflowRequest = await _dbContext.WorkflowRequests
             .AsNoTracking()
+            //.Include(w => w.TaskRequests)
             .Include(r => r.WorkflowTemplate)
                 .ThenInclude(r => r.WorkflowType)
             .SingleOrDefaultAsync(r => r.Id == workflowRequestId, cancellationToken);
