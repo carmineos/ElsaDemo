@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$defs": {
+    "absenceTypes": {
+      "type": "string",
+      "enum": [
+        "Half Day",
+        "Full Day"
+      ]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "request": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "title": "Reason",
+          "type": "string",
+          "description": "The reason of the leave"
+        },
+        "startDate": {
+          "title": "Start Date",
+          "type": "string",
+          "format": "date",
+          "description": "The initial date of the leave period"
+        },
+        "endDate": {
+          "title": "End Date",
+          "type": "string",
+          "format": "date",
+          "description": "The final date of the leave period"
+        },
+        "type": {
+          "title": "Type",
+          "type": "string",
+          "description": "The time taken for the leave",
+          "$ref": "#/$defs/absenceTypes"
+        },
+        "traveledDays": {
+          "title": "Traveled Days",
+          "type": "number",
+          "description": "The number od days traveled during the defined leave period"
+        }
+      },
+      "required": [
+        "startDate",
+        "endDate",
+        "type",
+        "traveledDays"
+      ]
+    }
+  },
+  "required": [
+    "request"
+  ]
+}

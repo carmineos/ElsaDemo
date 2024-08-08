@@ -18,9 +18,9 @@ public class WorkflowsController(OnboardingDbContext dbContext, ElsaClient elsaC
     private readonly ElsaClient _elsaClient = elsaClient;
 
     [HttpPost("create")]
-    public async Task<IActionResult> CreateDraft(CreateWorkflowRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Create(CreateWorkflowRequest request, CancellationToken cancellationToken)
     {
-        var workflowTemplate = await _dbContext.WorkflowTemplates.SingleOrDefaultAsync(cancellationToken);
+        var workflowTemplate = await _dbContext.WorkflowTemplates.SingleOrDefaultAsync(w => w.Id == request.WorkflowTemplateId, cancellationToken);
 
         if (workflowTemplate is null)
         {
@@ -55,8 +55,8 @@ public class WorkflowsController(OnboardingDbContext dbContext, ElsaClient elsaC
         return Ok(workflowRequest.Id);
     }
 
-    [HttpPost("start")]
-    public async Task<IActionResult> Start(StartWorkflowRequest request, CancellationToken cancellationToken)
+    [HttpPost("submit")]
+    public async Task<IActionResult> Submit(StartWorkflowRequest request, CancellationToken cancellationToken)
     {
         var workflowRequest = await _dbContext.WorkflowRequests
             .Include(r => r.WorkflowTemplate)

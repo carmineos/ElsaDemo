@@ -1,15 +1,15 @@
 {
-  "id": "b0a17815900b3070",
+  "id": "a29d0e81a7a4796f",
   "definitionId": "absence",
   "name": "Absence Request",
   "description": "",
-  "createdAt": "2024-08-06T22:52:30.6608123+00:00",
-  "version": 3,
+  "createdAt": "2024-08-06T23:01:49.971089+00:00",
+  "version": 4,
   "toolVersion": "3.0.0.0",
   "variables": [
     {
       "id": "bd549b6479e7d3be",
-      "name": "Employee",
+      "name": "Request",
       "typeName": "Object",
       "isArray": false,
       "value": "",
@@ -86,53 +86,17 @@
       },
       {
         "variable": {
-          "id": "8bc0dd7cae375bde",
-          "name": "Date",
-          "typeName": "DateTime",
-          "storageDriverTypeName": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core"
-        },
-        "value": {
-          "typeName": "Object",
-          "expression": {
-            "type": "JavaScript",
-            "value": "getInput(\u0022Date\u0022)"
-          }
-        },
-        "id": "eb7f9774f10d065d",
-        "nodeId": "Workflow1:4fcee5c53a7d231b:eb7f9774f10d065d",
-        "name": "SetVariable2",
-        "type": "Elsa.SetVariable",
-        "version": 1,
-        "customProperties": {
-          "canStartWorkflow": false,
-          "runAsynchronously": false
-        },
-        "metadata": {
-          "designer": {
-            "position": {
-              "x": 157.5546875,
-              "y": 103.0078125
-            },
-            "size": {
-              "width": 245.109375,
-              "height": 50
-            }
-          },
-          "displayText": "Set Date from Input"
-        }
-      },
-      {
-        "variable": {
           "id": "bd549b6479e7d3be",
-          "name": "Employee",
+          "name": "Request",
           "typeName": "Object",
+          "value": "",
           "storageDriverTypeName": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core"
         },
         "value": {
           "typeName": "Object",
           "expression": {
             "type": "JavaScript",
-            "value": "getInput(\u0022Employee\u0022)"
+            "value": "getInput(\u0022Request\u0022)"
           }
         },
         "id": "a2f276be6a01814b",
@@ -147,15 +111,57 @@
         "metadata": {
           "designer": {
             "position": {
-              "x": 157.5546875,
-              "y": 223.0078125
+              "x": 217.5546875,
+              "y": 152.67448043823242
             },
             "size": {
               "width": 245.109375,
               "height": 50
             }
           },
-          "displayText": "Set Employee from Input"
+          "displayText": "Set Request from Input"
+        }
+      },
+      {
+        "taskName": {
+          "typeName": "String",
+          "expression": {
+            "type": "Literal",
+            "value": "LineManagerReviewRequest"
+          }
+        },
+        "payload": {
+          "typeName": "System.Collections.Generic.IDictionary\u00602[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
+          "expression": {
+            "type": "JavaScript",
+            "value": "return {\n    request: getRequest(),\n    description: \u0022Request Line Manager Review\u0022\n}"
+          }
+        },
+        "result": {
+          "typeName": "Object",
+          "memoryReference": { "id": "978dab73c151196f" }
+        },
+        "id": "b39d18dd92744edd",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:b39d18dd92744edd",
+        "name": "RunTask1",
+        "type": "Elsa.RunTask",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 740,
+              "y": 152.67448043823242
+            },
+            "size": {
+              "width": 279.91668701171875,
+              "height": 50
+            }
+          },
+          "displayText": "Request LineManager Review"
         }
       },
       {
@@ -170,7 +176,7 @@
           "typeName": "System.Collections.Generic.IDictionary\u00602[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
           "expression": {
             "type": "JavaScript",
-            "value": "return {\n    employee: getEmployee(),\n    date: getDate(),\n    description: \u0022Request HR Review\u0022\n}"
+            "value": "return {\n    request: getRequest(),\n    description: \u0022Request HR Review\u0022\n}"
           }
         },
         "result": {
@@ -199,48 +205,6 @@
           },
           "displayText": "Request HR Review"
         }
-      },
-      {
-        "taskName": {
-          "typeName": "String",
-          "expression": {
-            "type": "Literal",
-            "value": "LineManagerReviewRequest"
-          }
-        },
-        "payload": {
-          "typeName": "System.Collections.Generic.IDictionary\u00602[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
-          "expression": {
-            "type": "JavaScript",
-            "value": "return {\n    employee: getEmployee(),\n    date: getDate(),\n    description: \u0022Request Line Manager Review\u0022\n}"
-          }
-        },
-        "result": {
-          "typeName": "Object",
-          "memoryReference": { "id": "978dab73c151196f" }
-        },
-        "id": "b39d18dd92744edd",
-        "nodeId": "Workflow1:4fcee5c53a7d231b:b39d18dd92744edd",
-        "name": "RunTask1",
-        "type": "Elsa.RunTask",
-        "version": 1,
-        "customProperties": {
-          "canStartWorkflow": false,
-          "runAsynchronously": false
-        },
-        "metadata": {
-          "designer": {
-            "position": {
-              "x": 740,
-              "y": 153.0078125
-            },
-            "size": {
-              "width": 279.91668701171875,
-              "height": 50
-            }
-          },
-          "displayText": "Request LineManager Review"
-        }
       }
     ],
     "variables": [],
@@ -261,27 +225,7 @@
           "port": "Done"
         },
         "target": {
-          "activity": "eb7f9774f10d065d",
-          "port": "In"
-        }
-      },
-      {
-        "source": {
-          "activity": "8eb74ad977be6495",
-          "port": "Done"
-        },
-        "target": {
           "activity": "a2f276be6a01814b",
-          "port": "In"
-        }
-      },
-      {
-        "source": {
-          "activity": "eb7f9774f10d065d",
-          "port": "Done"
-        },
-        "target": {
-          "activity": "b39d18dd92744edd",
           "port": "In"
         }
       },

@@ -7,21 +7,23 @@ Content-Type: application/json
 {
     "companyId": 1,
     "workflowTemplateId": 1,
-    "requestData": { 
-      "Employee": { 
-        "Name": "Alice Smith", 
-        "Email": "alice.smith@acme.com" 
-      },
-      "Date": "2024-08-08T13:35:11.857Z"
+    "requestData": {
+      "request": {
+        "reason": "Vacation",  
+        "startDate": "2024-08-09",
+	      "endDate": "2024-09-02",
+        "type": "Full Day",
+        "traveledDays": 2  
+      }
     }
 }
 
 ###
 
-POST https://{{hostname}}:{{port}}/api/workflows/start
+POST https://{{hostname}}:{{port}}/api/workflows/submit
 Content-Type: application/json
 
 {
     "companyId": 1,
-    "workflowRequestId": "3ac2245a-85a1-4c8e-82f7-a71fb14b5886"
+    "workflowRequestId": "1d141479-1eae-4393-8c8d-96f854359e8c"
 }
