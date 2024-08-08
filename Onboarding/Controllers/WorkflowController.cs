@@ -1,12 +1,10 @@
-using Onboarding.Data;
-using Onboarding.Entities;
-using Onboarding.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using NJsonSchema;
+using Onboarding.Data;
 using Onboarding.Data.Models.Workflows;
 using Onboarding.Services;
+using System.Text.Json;
 
 namespace Onboarding.Controllers;
 
@@ -72,7 +70,7 @@ public class WorkflowsController(OnboardingDbContext dbContext, ElsaClient elsaC
             return BadRequest("Workflow already started");
         }
 
-        workflowRequest.WorkflowInstanceId = await _elsaClient.StartWorklowAsync(workflowRequest.WorkflowTemplate.WorkflowDefinitionId!, workflowRequest.RequestJsonData, cancellationToken);
+        workflowRequest.WorkflowInstanceId = await _elsaClient.StartWorklowAsync(workflowRequest.WorkflowTemplate.WorkflowDefinitionId!, workflowRequest.Id, workflowRequest.RequestJsonData, cancellationToken);
 
         _dbContext.Update(workflowRequest);
 

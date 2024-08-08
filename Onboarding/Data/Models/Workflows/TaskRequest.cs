@@ -1,9 +1,9 @@
-﻿namespace Onboarding.Entities;
+﻿namespace Onboarding.Data.Models.Workflows;
 
 /// <summary>
 /// A task that needs to be completed by the user.
 /// </summary>
-public class OnboardingTask
+public class TaskRequest
 {
     /// <summary>
     /// The ID of the task.
@@ -13,12 +13,13 @@ public class OnboardingTask
     /// <summary>
     /// An external ID that can be used to reference the task.
     /// </summary>
-    public string ExternalId { get; set; } = default!;
+    public string ExternalTaskId { get; set; } = default!;
 
     /// <summary>
     /// The ID of the onboarding process that the task belongs to.
     /// </summary>
-    public string ProcessId { get; set; } = default!;
+    public Guid WorklowRequestId { get; set; } = default!;
+
 
     /// <summary>
     /// The name of the task.
@@ -30,15 +31,7 @@ public class OnboardingTask
     /// </summary>
     public string Description { get; set; } = default!;
 
-    /// <summary>
-    /// The name of the employee being onboarded.
-    /// </summary>
-    public string EmployeeName { get; set; } = default!;
-
-    /// <summary>
-    /// The email address of the employee being onboarded.
-    /// </summary>
-    public string EmployeeEmail { get; set; } = default!;
+    public Guid? CompletedBy { get; set; } = default!;
 
     /// <summary>
     /// Whether the task has been completed.
@@ -54,4 +47,6 @@ public class OnboardingTask
     /// The date and time when the task was completed.
     /// </summary>
     public DateTimeOffset? CompletedAt { get; set; }
+
+    public WorkflowRequest WorkflowRequest { get; set; } = default!;
 }

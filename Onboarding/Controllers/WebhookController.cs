@@ -1,7 +1,8 @@
-using Onboarding.Data;
-using Onboarding.Entities;
-using Onboarding.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Onboarding.Data;
+using Onboarding.Data.Models.Workflows;
+using Onboarding.Models;
 
 namespace Onboarding.Controllers;
 
@@ -15,19 +16,28 @@ public class WebhookController(OnboardingDbContext dbContext) : Controller
         var payload = webhookEvent.Payload;
         var taskPayload = payload.TaskPayload;
 
-        var task = new OnboardingTask
+        var workflowRequest = await dbContext.WorkflowRequests.SingleOrDefaultAsync(w => w.Id == taskPayload.WorkflowRequestId, CancellationToken.None);
+
+        if (workflowRequest is null)
         {
-            ProcessId = payload.WorkflowInstanceId,
-            ExternalId = payload.TaskId,
+            throw new Exception();
+        }
+
+        var task = new TaskRequest
+        {
+            // TODO: Add WorkflowRequestId
+            WorklowRequestId = workflowRequest!.Id,
+            ExternalTaskId = payload.TaskId,
             Name = payload.TaskName,
             Description = taskPayload.Description,
-            EmployeeEmail = "",
-            EmployeeName = "",
             CreatedAt = DateTimeOffset.Now
         };
 
-        await dbContext.Tasks.AddAsync(task);
-        await dbContext.SaveChangesAsync();
+        workflowRequest.TaskRequests.Add(task);
+
+        dbContext.Update(workflowRequest);
+
+        await dbContext.SaveChangesAsync(CancellationToken.None);
 
         return Ok();
     }

@@ -26,25 +26,3 @@ public class WorkflowTemplateConfiguration : IEntityTypeConfiguration<WorkflowTe
             .IsRequired();
     }
 }
-
-public class WorkflowRequestConfiguration : IEntityTypeConfiguration<WorkflowRequest>
-{
-    public void Configure(EntityTypeBuilder<WorkflowRequest> builder)
-    {
-        builder.HasKey(x => x.Id);
-
-        builder.HasOne(x => x.WorkflowTemplate)
-            .WithMany()
-            .HasForeignKey(x => x.WorkflowTemplateId)
-            .IsRequired();
-
-        builder.Property(x => x.CreatorId)
-            .IsRequired();
-
-        builder.Property(x => x.RequestorId)
-            .IsRequired();
-
-        builder.Property(x => x.RequestJsonData)
-            .IsRequired();
-    }
-}

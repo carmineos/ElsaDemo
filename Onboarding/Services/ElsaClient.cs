@@ -21,12 +21,14 @@ public class ElsaClient(HttpClient httpClient)
     }
 
 
-    public async Task<string> StartWorklowAsync(string workflowDefinitionId, string? inputPayload = default, CancellationToken cancellationToken = default)
+    public async Task<string> StartWorklowAsync(string workflowDefinitionId, Guid workflowRequestId, string? inputPayload = default, CancellationToken cancellationToken = default)
     {
         var url = new Uri($"workflow-definitions/{workflowDefinitionId}/execute", UriKind.Relative);
 
         var root = new JsonObject();
         root["input"] = JsonNode.Parse(inputPayload!);
+
+        root["input"].AsObject().Add("WorkflowRequestId", workflowRequestId);
 
         var response = await httpClient.PostAsJsonAsync(url, root, cancellationToken);
 

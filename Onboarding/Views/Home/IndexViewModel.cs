@@ -1,8 +1,8 @@
-using Onboarding.Entities;
+using Onboarding.Data.Models.Workflows;
 
 namespace Onboarding.Views.Home;
 
-public class IndexViewModel(ICollection<OnboardingTask> tasks)
+public class IndexViewModel(ICollection<TaskRequest> tasks)
 {
-    public ICollection<OnboardingTask> Tasks { get; set; } = tasks;
+    public ICollection<TaskRequest> Tasks { get; set; } = tasks;
 }

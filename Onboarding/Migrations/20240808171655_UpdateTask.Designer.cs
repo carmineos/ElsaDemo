@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Onboarding.Data;
 
@@ -10,9 +11,11 @@ using Onboarding.Data;
 namespace Onboarding.Migrations
 {
     [DbContext(typeof(OnboardingDbContext))]
-    partial class OnboardingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240808171655_UpdateTask")]
+    partial class UpdateTask
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.7");
@@ -47,15 +50,11 @@ namespace Onboarding.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("WorkflowRequestId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("WorklowRequestId")
+                    b.Property<string>("WorklowIstanceId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("WorkflowRequestId");
 
                     b.ToTable("TaskRequests");
                 });
@@ -141,17 +140,6 @@ namespace Onboarding.Migrations
                     b.ToTable("WorkflowTypes");
                 });
 
-            modelBuilder.Entity("Onboarding.Data.Models.Workflows.TaskRequest", b =>
-                {
-                    b.HasOne("Onboarding.Data.Models.Workflows.WorkflowRequest", "WorkflowRequest")
-                        .WithMany("TaskRequests")
-                        .HasForeignKey("WorkflowRequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("WorkflowRequest");
-                });
-
             modelBuilder.Entity("Onboarding.Data.Models.Workflows.WorkflowRequest", b =>
                 {
                     b.HasOne("Onboarding.Data.Models.Workflows.WorkflowTemplate", "WorkflowTemplate")
@@ -172,11 +160,6 @@ namespace Onboarding.Migrations
                         .IsRequired();
 
                     b.Navigation("WorkflowType");
-                });
-
-            modelBuilder.Entity("Onboarding.Data.Models.Workflows.WorkflowRequest", b =>
-                {
-                    b.Navigation("TaskRequests");
                 });
 #pragma warning restore 612, 618
         }

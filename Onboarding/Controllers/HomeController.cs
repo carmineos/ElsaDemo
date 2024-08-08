@@ -12,24 +12,32 @@ public class HomeController(OnboardingDbContext dbContext, ElsaClient elsaClient
 {
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
-        var tasks = await dbContext.Tasks.Where(x => !x.IsCompleted).ToListAsync(cancellationToken: cancellationToken);
+        var tasks = await dbContext.TaskRequests
+            .AsNoTracking()
+            .Include(p => p.WorkflowRequest)
+                .ThenInclude(p => p.WorkflowTemplate)
+                    .ThenInclude(p => p.WorkflowType)
+            .Where(x => !x.IsCompleted)
+            .ToListAsync(cancellationToken);
+
         var model = new IndexViewModel(tasks);
         return View(model);
     }
 
     public async Task<IActionResult> Approve(int taskId, CancellationToken cancellationToken)
     {
-        var task = dbContext.Tasks.FirstOrDefault(x => x.Id == taskId);
+        var task = dbContext.TaskRequests.FirstOrDefault(x => x.Id == taskId);
 
         if (task == null)
             return NotFound();
 
-        await elsaClient.ReportTaskCompletedAsync(task.ExternalId, result: new HRReviewResult { Approved = true }, cancellationToken: cancellationToken);
+        await elsaClient.ReportTaskCompletedAsync(task.ExternalTaskId, result: new HRReviewResult { Approved = true }, cancellationToken: cancellationToken);
 
         task.IsCompleted = true;
+        task.CompletedBy = Guid.Empty;
         task.CompletedAt = DateTimeOffset.Now;
 
-        dbContext.Tasks.Update(task);
+        dbContext.TaskRequests.Update(task);
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return RedirectToAction("Index");
@@ -37,17 +45,18 @@ public class HomeController(OnboardingDbContext dbContext, ElsaClient elsaClient
 
     public async Task<IActionResult> Reject(int taskId, CancellationToken cancellationToken)
     {
-        var task = dbContext.Tasks.FirstOrDefault(x => x.Id == taskId);
+        var task = dbContext.TaskRequests.FirstOrDefault(x => x.Id == taskId);
 
         if (task == null)
             return NotFound();
 
-        await elsaClient.ReportTaskCompletedAsync(task.ExternalId, result: new HRReviewResult { Approved = false }, cancellationToken: cancellationToken);
+        await elsaClient.ReportTaskCompletedAsync(task.ExternalTaskId, result: new HRReviewResult { Approved = false }, cancellationToken: cancellationToken);
 
         task.IsCompleted = true;
+        task.CompletedBy = Guid.Empty;
         task.CompletedAt = DateTimeOffset.Now;
 
-        dbContext.Tasks.Update(task);
+        dbContext.TaskRequests.Update(task);
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return RedirectToAction("Index");
