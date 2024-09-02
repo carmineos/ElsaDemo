@@ -2,6 +2,7 @@ using Elsa.EntityFrameworkCore.Modules.Management;
 using Elsa.EntityFrameworkCore.Modules.Runtime;
 using Elsa.Extensions;
 using ElsaServer;
+using ElsaServer.Messaging.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddElsa(elsa =>
@@ -67,6 +68,27 @@ builder.Services.AddElsa(elsa =>
         {
             httpClientBuilder.AddHttpMessageHandler<TestDelegatingHandler>();
         };
+    });
+
+    // Example using
+    // docker run -p 15672:15672 -p 5672:5672 masstransit/rabbitmq
+    elsa.UseMassTransit(massTransit =>
+    {
+        massTransit.UseRabbitMq(
+            //"amqp://guest:guest@localhost:5672/elsa", Don't use vhost for the example
+            "amqp://guest:guest@localhost:5672",
+            rabbitMqFeature => rabbitMqFeature.ConfigureServiceBus = bus =>
+            {
+                bus.PrefetchCount = 4;
+                bus.Durable = true;
+                bus.AutoDelete = false;
+                bus.ConcurrentMessageLimit = 32;
+                // etc. 
+            }
+        );
+
+        massTransit.AddMessageType<MyCustomEvent>();
+        massTransit.AddConsumer<MyCustomEventHandler>(null, false);
     });
 });
 
