@@ -93,6 +93,9 @@ builder.Services.AddElsa(elsa =>
     });
 });
 
+// Add MediatR integration
+builder.Services.AddHandlersFrom<Program>();
+
 builder.Services.AddTransient<TestDelegatingHandler>();
 
 // Configure CORS to allow designer app hosted on a different origin to invoke the APIs.
