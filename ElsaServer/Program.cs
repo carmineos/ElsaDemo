@@ -87,7 +87,7 @@ builder.Services.AddElsa(elsa =>
             }
         );
 
-        massTransit.AddMessageType<MyCustomEvent>();
+        massTransit.AddMessageType<AbsenceRequestApprovedEvent>();
         // Consumer moved to Onboarding project
         //massTransit.AddConsumer<MyCustomEventHandler>(null, false);
     });

@@ -35,7 +35,7 @@ builder.Services.AddMassTransit(x =>
         cfg.ConfigureEndpoints(context);
     });
 
-    x.AddConsumer<MyCustomEventHandler>();
+    x.AddConsumer<AbsenceRequestApprovedEventHandler>();
 });
 
 var app = builder.Build();
