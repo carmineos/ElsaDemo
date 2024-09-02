@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Onboarding.Data;
 using Onboarding.Services;
 using System.Net.Http.Headers;
+using MassTransit;
+using ElsaServer.Messaging.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,22 @@ builder.Services.AddHttpClient<ElsaClient>(httpClient =>
     var apiKey = configuration["Elsa:ApiKey"]!;
     httpClient.BaseAddress = new Uri(url);
     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("ApiKey", apiKey);
+});
+
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("localhost", "/", h =>
+        {
+            h.Username("guest");
+            h.Password("guest");
+        });
+
+        cfg.ConfigureEndpoints(context);
+    });
+
+    x.AddConsumer<MyCustomEventHandler>();
 });
 
 var app = builder.Build();

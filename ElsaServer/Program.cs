@@ -88,7 +88,8 @@ builder.Services.AddElsa(elsa =>
         );
 
         massTransit.AddMessageType<MyCustomEvent>();
-        massTransit.AddConsumer<MyCustomEventHandler>(null, false);
+        // Consumer moved to Onboarding project
+        //massTransit.AddConsumer<MyCustomEventHandler>(null, false);
     });
 });
 
