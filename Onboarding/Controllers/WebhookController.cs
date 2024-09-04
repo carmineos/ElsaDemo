@@ -28,8 +28,7 @@ public class WebhookController(OnboardingDbContext dbContext) : Controller
             // TODO: Add WorkflowRequestId
             WorkflowRequestId = workflowRequest!.Id,
             ExternalTaskId = payload.TaskId,
-            Name = payload.TaskName,
-            Description = taskPayload.Description,
+            TaskTypeId = (int)Enum.Parse<TaskTypes>(payload.TaskName, false),
             CreatedAt = DateTimeOffset.Now
         };
 

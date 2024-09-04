@@ -9,6 +9,7 @@ public class OnboardingDbContext(DbContextOptions<OnboardingDbContext> options) 
     public DbSet<WorkflowTemplate> WorkflowTemplates { get; set; } = default!;
     public DbSet<WorkflowRequest> WorkflowRequests { get; set; } = default!;
     public DbSet<TaskRequest> TaskRequests { get; set; } = default!;
+    public DbSet<TaskType> TaskTypes { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

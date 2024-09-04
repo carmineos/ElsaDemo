@@ -10,10 +10,9 @@ public class TaskRequestConfiguration : IEntityTypeConfiguration<TaskRequest>
     {
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.Name)
-            .IsRequired();
-
-        builder.Property(x => x.Description)
+        builder.HasOne(x => x.TaskType)
+            .WithMany()
+            .HasForeignKey(x => x.TaskTypeId)
             .IsRequired();
 
         builder.Property(x => x.ExternalTaskId)

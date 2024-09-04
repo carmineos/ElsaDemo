@@ -14,6 +14,7 @@ public class HomeController(OnboardingDbContext dbContext, ElsaClient elsaClient
     {
         var tasks = await dbContext.TaskRequests
             .AsNoTracking()
+            .Include(p => p.TaskType)
             .Include(p => p.WorkflowRequest)
                 .ThenInclude(p => p.WorkflowTemplate)
                     .ThenInclude(p => p.WorkflowType)

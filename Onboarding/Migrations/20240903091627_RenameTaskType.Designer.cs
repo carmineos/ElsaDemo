@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Onboarding.Data;
 
@@ -10,9 +11,11 @@ using Onboarding.Data;
 namespace Onboarding.Migrations
 {
     [DbContext(typeof(OnboardingDbContext))]
-    partial class OnboardingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240903091627_RenameTaskType")]
+    partial class RenameTaskType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
