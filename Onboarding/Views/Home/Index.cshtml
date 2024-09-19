@@ -13,10 +13,9 @@
         <thead class="table-light">
             <tr>
                 <th scope="col">Id</th>
-                <th scope="col">Workflow Type</th>
+                <th scope="col">WorkflowDefinitionId</th>
                 <th scope="col">Description</th>
                 <th scope="col">Creator</th>
-                <th scope="col">Requestor</th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -25,10 +24,9 @@
             {
                 <tr>
                     <th scope="row">@task.WorkflowRequest.Id</th>
-                    <td>@task.WorkflowRequest.WorkflowTemplate.WorkflowType.Description</td>
-                    <td>@task.TaskType.Description</td>
-                    <td>@task.WorkflowRequest.CreatorId</td>
-                    <td>@task.WorkflowRequest.RequestorId</td>
+                    <td>@task.WorkflowRequest.WorkflowDefinitionId</td>
+                    <td>@task.TaskName</td>
+                    <td>@task.WorkflowRequest.CreatedBy</td>
                     <td>
                         <div style="display: flex;justify-content: space-evenly;">
 

@@ -1,23 +1,15 @@
 {
-  "id": "367370ca9e75e82c",
-  "definitionId": "absence",
-  "name": "Absence Request",
+  "id": "4a45ee573cb9cc01",
+  "definitionId": "example",
+  "name": "Example",
   "description": "",
-  "createdAt": "2024-09-02T11:11:06.4046046+00:00",
-  "version": 30,
+  "createdAt": "2024-09-19T20:05:32.5637948+00:00",
+  "version": 38,
   "toolVersion": "3.0.0.0",
   "variables": [
     {
-      "id": "bd549b6479e7d3be",
-      "name": "Request",
-      "typeName": "Object",
-      "isArray": false,
-      "value": "",
-      "storageDriverTypeName": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core"
-    },
-    {
       "id": "b1fd710ed67a41b8",
-      "name": "HRReviewResult",
+      "name": "ApproveStep2Result",
       "typeName": "Object",
       "isArray": false,
       "value": "",
@@ -25,16 +17,18 @@
     },
     {
       "id": "978dab73c151196f",
-      "name": "LineManagerReviewResult",
+      "name": "ApproveStep1Result",
       "typeName": "Object",
       "isArray": false,
+      "value": "",
       "storageDriverTypeName": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core"
     },
     {
       "id": "4720df22c0e42691",
-      "name": "HRManagerReviewResult",
+      "name": "ApproveStep3Result",
       "typeName": "Object",
       "isArray": false,
+      "value": "",
       "storageDriverTypeName": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core"
     },
     {
@@ -43,12 +37,25 @@
       "typeName": "Guid",
       "isArray": false,
       "storageDriverTypeName": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core"
+    },
+    {
+      "id": "8fd80e6b89eb8353",
+      "name": "RestartResult",
+      "typeName": "Object",
+      "isArray": false,
+      "value": "",
+      "storageDriverTypeName": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core"
     }
   ],
-  "inputs": [],
-  "outputs": [],
-  "outcomes": [ "Approved" ],
-  "customProperties": {},
+  "inputs": [
+  ],
+  "outputs": [
+  ],
+  "outcomes": [
+    "Approved"
+  ],
+  "customProperties": {
+  },
   "isReadonly": false,
   "isSystem": false,
   "isLatest": true,
@@ -62,10 +69,12 @@
     "version": 1,
     "id": "4fcee5c53a7d231b",
     "nodeId": "Workflow1:4fcee5c53a7d231b",
-    "metadata": {},
+    "metadata": {
+    },
     "customProperties": {
       "source": "FlowchartJsonConverter.cs:45",
-      "notFoundConnections": [],
+      "notFoundConnections": [
+      ],
       "canStartWorkflow": false,
       "runAsynchronously": false
     },
@@ -83,7 +92,7 @@
         "metadata": {
           "designer": {
             "position": {
-              "x": 85.9375,
+              "x": -574.0625,
               "y": 40
             },
             "size": {
@@ -94,24 +103,17 @@
         }
       },
       {
-        "variable": {
-          "id": "bd549b6479e7d3be",
-          "name": "Request",
-          "typeName": "Object",
-          "value": "",
-          "storageDriverTypeName": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core"
-        },
-        "value": {
-          "typeName": "Object",
+        "mode": {
+          "typeName": "Elsa.Workflows.Activities.Flowchart.Models.FlowJoinMode, Elsa.Workflows.Core",
           "expression": {
-            "type": "JavaScript",
-            "value": "getInput(\u0022Request\u0022)"
+            "type": "Literal",
+            "value": "WaitAny"
           }
         },
-        "id": "a2f276be6a01814b",
-        "nodeId": "Workflow1:4fcee5c53a7d231b:a2f276be6a01814b",
-        "name": "SetVariable1",
-        "type": "Elsa.SetVariable",
+        "id": "7e063b05dbd02eda",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:7e063b05dbd02eda",
+        "name": "FlowJoin2",
+        "type": "Elsa.FlowJoin",
         "version": 1,
         "customProperties": {
           "canStartWorkflow": false,
@@ -120,15 +122,83 @@
         "metadata": {
           "designer": {
             "position": {
-              "x": 364.4296875,
+              "x": 550.0714721679688,
               "y": 40
             },
             "size": {
-              "width": 245.109375,
-              "height": 50
+              "width": 97.44792175292969,
+              "height": 49.333335876464844
+            }
+          }
+        }
+      },
+      {
+        "mode": {
+          "typeName": "Elsa.Workflows.Activities.Flowchart.Models.FlowJoinMode, Elsa.Workflows.Core",
+          "expression": {
+            "type": "Literal",
+            "value": "WaitAny"
+          }
+        },
+        "id": "c47d7aa14ff1f426",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:c47d7aa14ff1f426",
+        "name": "FlowJoin3",
+        "type": "Elsa.FlowJoin",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 2397.4063110351562,
+              "y": 480.3333320617676
+            },
+            "size": {
+              "width": 97.44792175292969,
+              "height": 49.333335876464844
+            }
+          }
+        }
+      },
+      {
+        "condition": {
+          "typeName": "Boolean",
+          "expression": {
+            "type": "JavaScript",
+            "value": "return JSON.parse(getVariable(\u0022ApproveStep2Result\u0022))[\u0022approved\u0022] === true;"
+          }
+        },
+        "id": "6f213259b4bd92cb",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:6f213259b4bd92cb",
+        "name": "FlowDecision2",
+        "type": "Elsa.FlowDecision",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false,
+          "logPersistenceMode": {
+            "default": "Inherit",
+            "inputs": {
+            },
+            "outputs": {
+            }
+          }
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 1780,
+              "y": 140
+            },
+            "size": {
+              "width": 215.89584350585938,
+              "height": 49.333335876464844
             }
           },
-          "displayText": "Set Request from Input"
+          "displayText": "Check ApproveStep2",
+          "description": ""
         }
       },
       {
@@ -157,8 +227,8 @@
         "metadata": {
           "designer": {
             "position": {
-              "x": 364.4296875,
-              "y": 144
+              "x": -140,
+              "y": 19.666667938232422
             },
             "size": {
               "width": 315.47918701171875,
@@ -173,41 +243,50 @@
           "typeName": "String",
           "expression": {
             "type": "Literal",
-            "value": "LineManagerReviewTask"
+            "value": "Approve_Step_1"
           }
         },
         "payload": {
           "typeName": "ObjectDictionary",
           "expression": {
             "type": "JavaScript",
-            "value": "return {\n    request: getVariable(\u0022Request\u0022),\n    workflowRequestId: getVariable(\u0022WorkflowRequestId\u0022),\n    description: \u0022Line Manager Review\u0022\n}"
+            "value": "return {\n    workflowRequestId: getVariable(\u0022WorkflowRequestId\u0022),\n    description: \u0022Approve Step 1\u0022\n}"
           }
         },
         "result": {
           "typeName": "Object",
-          "memoryReference": { "id": "978dab73c151196f" }
+          "memoryReference": {
+            "id": "978dab73c151196f"
+          }
         },
         "id": "b39d18dd92744edd",
         "nodeId": "Workflow1:4fcee5c53a7d231b:b39d18dd92744edd",
-        "name": "LineManagerReview",
+        "name": "ApproveStep1",
         "type": "Elsa.RunTask",
         "version": 1,
         "customProperties": {
           "canStartWorkflow": false,
-          "runAsynchronously": false
+          "runAsynchronously": false,
+          "logPersistenceMode": {
+            "default": "Inherit",
+            "inputs": {
+            },
+            "outputs": {
+            }
+          }
         },
         "metadata": {
           "designer": {
             "position": {
-              "x": 731.9427185058594,
-              "y": 40
+              "x": 751.9427185058594,
+              "y": 39.66666793823242
             },
             "size": {
               "width": 279.91668701171875,
               "height": 50
             }
           },
-          "displayText": "Line Manager Review"
+          "displayText": "ApproveStep1"
         }
       },
       {
@@ -215,7 +294,7 @@
           "typeName": "Boolean",
           "expression": {
             "type": "JavaScript",
-            "value": "return JSON.parse(getVariable(\u0022LineManagerReviewResult\u0022))[\u0022approved\u0022] === true;"
+            "value": "return JSON.parse(getVariable(\u0022ApproveStep1Result\u0022))[\u0022approved\u0022] === true;"
           }
         },
         "id": "ead62270aecb0cc1",
@@ -225,54 +304,29 @@
         "version": 1,
         "customProperties": {
           "canStartWorkflow": false,
-          "runAsynchronously": false
+          "runAsynchronously": false,
+          "logPersistenceMode": {
+            "default": "Inherit",
+            "inputs": {
+            },
+            "outputs": {
+            }
+          }
         },
         "metadata": {
           "designer": {
             "position": {
-              "x": 1111.7604370117188,
-              "y": 40
+              "x": 1100,
+              "y": 200
             },
             "size": {
               "width": 269.71875,
               "height": 49.333335876464844
             }
           },
-          "displayText": "Check Line Manager Review",
-          "description": "Checks if the line manager approved the request",
+          "displayText": "Check ApproveStep1",
+          "description": "",
           "showDescription": false
-        }
-      },
-      {
-        "condition": {
-          "typeName": "Boolean",
-          "expression": {
-            "type": "JavaScript",
-            "value": "return JSON.parse(getVariable(\u0022HRReviewResult\u0022))[\u0022approved\u0022] === true;"
-          }
-        },
-        "id": "6f213259b4bd92cb",
-        "nodeId": "Workflow1:4fcee5c53a7d231b:6f213259b4bd92cb",
-        "name": "FlowDecision2",
-        "type": "Elsa.FlowDecision",
-        "version": 1,
-        "customProperties": {
-          "canStartWorkflow": false,
-          "runAsynchronously": false
-        },
-        "metadata": {
-          "designer": {
-            "position": {
-              "x": 1776.2083587646484,
-              "y": 40
-            },
-            "size": {
-              "width": 192.64584350585938,
-              "height": 49.333335876464844
-            }
-          },
-          "displayText": "Check HR Review",
-          "description": "Checks if the HR approved the request"
         }
       },
       {
@@ -280,23 +334,25 @@
           "typeName": "String",
           "expression": {
             "type": "Literal",
-            "value": "HRReviewTask"
+            "value": "Approve_Step_2"
           }
         },
         "payload": {
           "typeName": "ObjectDictionary",
           "expression": {
             "type": "JavaScript",
-            "value": "return {\n    request: getVariable(\u0022Request\u0022),\n    workflowRequestId: getVariable(\u0022WorkflowRequestId\u0022),\n    description: \u0022HR Review\u0022\n}"
+            "value": "return {\n    workflowRequestId: getVariable(\u0022WorkflowRequestId\u0022),\n    description: \u0022Approve Step 2\u0022\n}"
           }
         },
         "result": {
           "typeName": "Object",
-          "memoryReference": { "id": "b1fd710ed67a41b8" }
+          "memoryReference": {
+            "id": "b1fd710ed67a41b8"
+          }
         },
         "id": "7bd963bd816f124e",
         "nodeId": "Workflow1:4fcee5c53a7d231b:7bd963bd816f124e",
-        "name": "HRReview",
+        "name": "ApproveStep2",
         "type": "Elsa.RunTask",
         "version": 1,
         "customProperties": {
@@ -314,7 +370,58 @@
               "height": 50
             }
           },
-          "displayText": "HR Review"
+          "displayText": "ApproveStep2"
+        }
+      },
+      {
+        "taskName": {
+          "typeName": "String",
+          "expression": {
+            "type": "Literal",
+            "value": "Approve_Step_3"
+          }
+        },
+        "payload": {
+          "typeName": "ObjectDictionary",
+          "expression": {
+            "type": "JavaScript",
+            "value": "return {\n    workflowRequestId: getVariable(\u0022WorkflowRequestId\u0022),\n    description: \u0022ApproveStep3\u0022\n}"
+          }
+        },
+        "result": {
+          "typeName": "Object",
+          "memoryReference": {
+            "id": "4720df22c0e42691"
+          }
+        },
+        "id": "44f8caca769fcedf",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:44f8caca769fcedf",
+        "name": "ApproveStep3",
+        "type": "Elsa.RunTask",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false,
+          "logPersistenceMode": {
+            "default": "Inherit",
+            "inputs": {
+            },
+            "outputs": {
+            }
+          }
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 2117.4896240234375,
+              "y": 40
+            },
+            "size": {
+              "width": 279.91668701171875,
+              "height": 50
+            }
+          },
+          "displayText": "ApproveStep3"
         }
       },
       {
@@ -338,15 +445,15 @@
           "designer": {
             "position": {
               "x": 2492.8906860351562,
-              "y": 40
+              "y": 167.66666984558105
             },
             "size": {
               "width": 260.88543701171875,
               "height": 49.333335876464844
             }
           },
-          "displayText": "Check HR Manager Review",
-          "description": "Checks if the HR approved the request"
+          "displayText": "Check ApproveStep3",
+          "description": ""
         }
       },
       {
@@ -354,23 +461,25 @@
           "typeName": "String",
           "expression": {
             "type": "Literal",
-            "value": "HRManagerReviewTask"
+            "value": "Restart"
           }
         },
         "payload": {
           "typeName": "ObjectDictionary",
           "expression": {
             "type": "JavaScript",
-            "value": "return {\n    request: getVariable(\u0022Request\u0022),\n    workflowRequestId: getVariable(\u0022WorkflowRequestId\u0022),\n    description: \u0022HR Manager Review\u0022\n}"
+            "value": "return {\n    workflowRequestId: getVariable(\u0022WorkflowRequestId\u0022),\n    description: \u0022Restart\u0022\n}"
           }
         },
         "result": {
           "typeName": "Object",
-          "memoryReference": { "id": "4720df22c0e42691" }
+          "memoryReference": {
+            "id": "8fd80e6b89eb8353"
+          }
         },
-        "id": "44f8caca769fcedf",
-        "nodeId": "Workflow1:4fcee5c53a7d231b:44f8caca769fcedf",
-        "name": "HRManagerReview",
+        "id": "6d8987ca13149e02",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:6d8987ca13149e02",
+        "name": "Restart",
         "type": "Elsa.RunTask",
         "version": 1,
         "customProperties": {
@@ -378,27 +487,29 @@
           "runAsynchronously": false,
           "logPersistenceMode": {
             "default": "Inherit",
-            "inputs": {},
-            "outputs": {}
+            "inputs": {
+            },
+            "outputs": {
+            }
           }
         },
         "metadata": {
           "designer": {
             "position": {
-              "x": 2117.4896240234375,
-              "y": 40
+              "x": 3140,
+              "y": 480
             },
             "size": {
               "width": 279.91668701171875,
               "height": 50
             }
           },
-          "displayText": "HR Manager Review"
+          "displayText": "Restart"
         }
       },
       {
-        "id": "8172a7ef765c214e",
-        "nodeId": "Workflow1:4fcee5c53a7d231b:8172a7ef765c214e",
+        "id": "ac6195cc3be84f81",
+        "nodeId": "Workflow1:4fcee5c53a7d231b:ac6195cc3be84f81",
         "name": "End1",
         "type": "Elsa.End",
         "version": 1,
@@ -409,42 +520,11 @@
         "metadata": {
           "designer": {
             "position": {
-              "x": 2810.5209045410156,
-              "y": 118.00000190734863
+              "x": 3109.872314453125,
+              "y": 199.88449096679688
             },
             "size": {
-              "width": 94.0625,
-              "height": 49.333335876464844
-            }
-          }
-        }
-      },
-      {
-        "messageType": "ElsaServer.Messaging.Events.AbsenceRequestApprovedEvent, ElsaServer",
-        "message": {
-          "typeName": "Object",
-          "expression": {
-            "type": "JavaScript",
-            "value": "return {\r\n    \u0022WorkflowRequestId\u0022: getVariable(\u0022WorkflowRequestId\u0022)\r\n}"
-          }
-        },
-        "id": "7ad865d13b0f4d2c",
-        "nodeId": "Workflow1:4fcee5c53a7d231b:7ad865d13b0f4d2c",
-        "name": "2",
-        "type": "ElsaServer.Messaging.Events.PublishAbsenceRequestApprovedEvent",
-        "version": 1,
-        "customProperties": {
-          "canStartWorkflow": false,
-          "runAsynchronously": false
-        },
-        "metadata": {
-          "designer": {
-            "position": {
-              "x": 3002.33837890625,
-              "y": 40
-            },
-            "size": {
-              "width": 326.34375,
+              "width": 93.98958587646484,
               "height": 49.333335876464844
             }
           }
@@ -454,16 +534,6 @@
     "connections": [
       {
         "source": {
-          "activity": "eebf46d8095442f3",
-          "port": "True"
-        },
-        "target": {
-          "activity": "7ad865d13b0f4d2c",
-          "port": "In"
-        }
-      },
-      {
-        "source": {
           "activity": "8eb74ad977be6495",
           "port": "Done"
         },
@@ -478,7 +548,77 @@
           "port": "Done"
         },
         "target": {
+          "activity": "7e063b05dbd02eda",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "eebf46d8095442f3",
+          "port": "True"
+        },
+        "target": {
+          "activity": "ac6195cc3be84f81",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "7e063b05dbd02eda",
+          "port": "Done"
+        },
+        "target": {
           "activity": "b39d18dd92744edd",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "ead62270aecb0cc1",
+          "port": "False"
+        },
+        "target": {
+          "activity": "c47d7aa14ff1f426",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "6f213259b4bd92cb",
+          "port": "False"
+        },
+        "target": {
+          "activity": "c47d7aa14ff1f426",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "eebf46d8095442f3",
+          "port": "False"
+        },
+        "target": {
+          "activity": "c47d7aa14ff1f426",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "c47d7aa14ff1f426",
+          "port": "Done"
+        },
+        "target": {
+          "activity": "6d8987ca13149e02",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "6d8987ca13149e02",
+          "port": "Done"
+        },
+        "target": {
+          "activity": "7e063b05dbd02eda",
           "port": "In"
         }
       },
@@ -499,16 +639,6 @@
         },
         "target": {
           "activity": "eebf46d8095442f3",
-          "port": "In"
-        }
-      },
-      {
-        "source": {
-          "activity": "eebf46d8095442f3",
-          "port": "False"
-        },
-        "target": {
-          "activity": "8172a7ef765c214e",
           "port": "In"
         }
       },
@@ -539,46 +669,6 @@
         },
         "target": {
           "activity": "6f213259b4bd92cb",
-          "port": "In"
-        }
-      },
-      {
-        "source": {
-          "activity": "ead62270aecb0cc1",
-          "port": "False"
-        },
-        "target": {
-          "activity": "8172a7ef765c214e",
-          "port": "In"
-        }
-      },
-      {
-        "source": {
-          "activity": "6f213259b4bd92cb",
-          "port": "False"
-        },
-        "target": {
-          "activity": "8172a7ef765c214e",
-          "port": "In"
-        }
-      },
-      {
-        "source": {
-          "activity": "a2f276be6a01814b",
-          "port": "Done"
-        },
-        "target": {
-          "activity": "b39d18dd92744edd",
-          "port": "In"
-        }
-      },
-      {
-        "source": {
-          "activity": "8eb74ad977be6495",
-          "port": "Done"
-        },
-        "target": {
-          "activity": "a2f276be6a01814b",
           "port": "In"
         }
       }

@@ -10,7 +10,7 @@ public class TaskRequest
     /// </summary>
     public Guid Id { get; set; }
 
-    public int TaskTypeId { get; set; }
+    public string TaskName { get; set; } = default!;
 
     /// <summary>
     /// An external ID that can be used to reference the task.
@@ -40,5 +40,4 @@ public class TaskRequest
     public DateTimeOffset? CompletedAt { get; set; }
 
     public WorkflowRequest WorkflowRequest { get; set; } = default!;
-    public TaskType TaskType { get; set; } = default!;
 }

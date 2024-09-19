@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NJsonSchema;
 using Onboarding.Data;
 using Onboarding.Data.Models.Workflows;
 using Onboarding.Services;
@@ -18,31 +17,11 @@ public class WorkflowsController(OnboardingDbContext dbContext, ElsaClient elsaC
     [HttpPost("create")]
     public async Task<IActionResult> Create(CreateWorkflowRequest request, CancellationToken cancellationToken)
     {
-        var workflowTemplate = await _dbContext.WorkflowTemplates.SingleOrDefaultAsync(w => w.Id == request.WorkflowTemplateId, cancellationToken);
-
-        if (workflowTemplate is null)
-        {
-            return NotFound();
-        }
-
-        // TODO: Build RequestJsonSchema -> actual schema
-
-        var schema = await JsonSchema.FromJsonAsync(workflowTemplate.RequestJsonSchema, cancellationToken);
-
-        var validationResult = schema.Validate(request.RequestData.GetRawText());
-
-        if (validationResult.Count is not 0)
-        {
-            return BadRequest(validationResult);
-        }
-
         var workflowRequest = new WorkflowRequest()
         {
             Id = Guid.NewGuid(),
-            WorkflowTemplateId = workflowTemplate.Id,
-            CreatorId = Guid.Empty,
-            RequestorId = Guid.Empty,
-            RequestJsonData = request.RequestData.GetRawText(),
+            WorkflowDefinitionId = request.WorkflowDefinitionId,
+            CreatedBy = Guid.Empty,
             WorkflowInstanceId = null,
             CreatedAtUtc = DateTimeOffset.Now,
         };
@@ -60,8 +39,6 @@ public class WorkflowsController(OnboardingDbContext dbContext, ElsaClient elsaC
         var workflowRequest = await _dbContext.WorkflowRequests
             .AsNoTracking()
             //.Include(w => w.TaskRequests)
-            .Include(r => r.WorkflowTemplate)
-                .ThenInclude(r => r.WorkflowType)
             .SingleOrDefaultAsync(r => r.Id == workflowRequestId, cancellationToken);
 
         if (workflowRequest is null)
@@ -78,7 +55,6 @@ public class WorkflowsController(OnboardingDbContext dbContext, ElsaClient elsaC
     public async Task<IActionResult> Submit(StartWorkflowRequest request, CancellationToken cancellationToken)
     {
         var workflowRequest = await _dbContext.WorkflowRequests
-            .Include(r => r.WorkflowTemplate)
             .SingleOrDefaultAsync(r => r.Id == request.WorkflowRequestId, cancellationToken);
 
         if (workflowRequest is null)
@@ -91,7 +67,7 @@ public class WorkflowsController(OnboardingDbContext dbContext, ElsaClient elsaC
             return BadRequest("Workflow already started");
         }
 
-        workflowRequest.WorkflowInstanceId = await _elsaClient.StartWorklowAsync(workflowRequest.WorkflowTemplate.WorkflowDefinitionId!, workflowRequest.Id, workflowRequest.RequestJsonData, cancellationToken);
+        workflowRequest.WorkflowInstanceId = await _elsaClient.StartWorklowAsync(workflowRequest.WorkflowDefinitionId, workflowRequest.Id, null, cancellationToken);
 
         _dbContext.Update(workflowRequest);
 
@@ -103,13 +79,10 @@ public class WorkflowsController(OnboardingDbContext dbContext, ElsaClient elsaC
 
 public record CreateWorkflowRequest
 {
-    public int CompanyId { get; set; }
-    public int WorkflowTemplateId { get; set; }
-    public JsonElement RequestData { get; set; }
+    public string WorkflowDefinitionId { get; set; } = default!;
 }
 
 public record StartWorkflowRequest
 {
-    public int CompanyId { get; set; }
     public Guid WorkflowRequestId { get; set; }
 }

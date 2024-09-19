@@ -10,18 +10,7 @@ public class WorkflowRequestConfiguration : IEntityTypeConfiguration<WorkflowReq
     {
         builder.HasKey(x => x.Id);
 
-        builder.HasOne(x => x.WorkflowTemplate)
-            .WithMany()
-            .HasForeignKey(x => x.WorkflowTemplateId)
-            .IsRequired();
-
-        builder.Property(x => x.CreatorId)
-            .IsRequired();
-
-        builder.Property(x => x.RequestorId)
-            .IsRequired();
-
-        builder.Property(x => x.RequestJsonData)
+        builder.Property(x => x.CreatedBy)
             .IsRequired();
     }
 }

@@ -26,9 +26,9 @@ public class ElsaClient(HttpClient httpClient)
         var url = new Uri($"workflow-definitions/{workflowDefinitionId}/execute", UriKind.Relative);
 
         var root = new JsonObject();
-        root["input"] = JsonNode.Parse(inputPayload!);
-
-        root["input"].AsObject().Add("WorkflowRequestId", workflowRequestId);
+        var inputObj = new JsonObject();
+        inputObj.Add("WorkflowRequestId", workflowRequestId);
+        root["input"] = inputObj;
 
         var response = await httpClient.PostAsJsonAsync(url, root, cancellationToken);
 

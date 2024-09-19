@@ -11,14 +11,14 @@ using Onboarding.Data;
 namespace Onboarding.Migrations
 {
     [DbContext(typeof(OnboardingDbContext))]
-    [Migration("20240808214737_Initial")]
-    partial class Initial
+    [Migration("20240919200224_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.7");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
             modelBuilder.Entity("Onboarding.Data.Models.Workflows.TaskRequest", b =>
                 {
@@ -35,10 +35,6 @@ namespace Onboarding.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("ExternalTaskId")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -46,7 +42,7 @@ namespace Onboarding.Migrations
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("TaskName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -72,73 +68,19 @@ namespace Onboarding.Migrations
                     b.Property<DateTimeOffset>("CreatedAtUtc")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("CreatorId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("RequestJsonData")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("RequestorId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("WorkflowInstanceId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("WorkflowTemplateId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WorkflowTemplateId");
-
-                    b.ToTable("WorkflowRequests");
-                });
-
-            modelBuilder.Entity("Onboarding.Data.Models.Workflows.WorkflowTemplate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("RequestJsonSchema")
-                        .IsRequired()
+                    b.Property<Guid>("CreatedBy")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("WorkflowDefinitionId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("WorkflowTypeId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WorkflowTypeId");
-
-                    b.ToTable("WorkflowTemplates");
-                });
-
-            modelBuilder.Entity("Onboarding.Data.Models.Workflows.WorkflowType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<string>("WorkflowInstanceId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("WorkflowTypes");
+                    b.ToTable("WorkflowRequests");
                 });
 
             modelBuilder.Entity("Onboarding.Data.Models.Workflows.TaskRequest", b =>
@@ -150,28 +92,6 @@ namespace Onboarding.Migrations
                         .IsRequired();
 
                     b.Navigation("WorkflowRequest");
-                });
-
-            modelBuilder.Entity("Onboarding.Data.Models.Workflows.WorkflowRequest", b =>
-                {
-                    b.HasOne("Onboarding.Data.Models.Workflows.WorkflowTemplate", "WorkflowTemplate")
-                        .WithMany()
-                        .HasForeignKey("WorkflowTemplateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("WorkflowTemplate");
-                });
-
-            modelBuilder.Entity("Onboarding.Data.Models.Workflows.WorkflowTemplate", b =>
-                {
-                    b.HasOne("Onboarding.Data.Models.Workflows.WorkflowType", "WorkflowType")
-                        .WithMany()
-                        .HasForeignKey("WorkflowTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("WorkflowType");
                 });
 
             modelBuilder.Entity("Onboarding.Data.Models.Workflows.WorkflowRequest", b =>
