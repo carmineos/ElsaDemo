@@ -29,7 +29,11 @@ public class HomeController(OnboardingDbContext dbContext, ElsaClient elsaClient
         if (task == null)
             return NotFound();
 
-        await elsaClient.ReportTaskCompletedAsync(task.ExternalTaskId, result: new HRReviewResult { Approved = true }, cancellationToken: cancellationToken);
+        Dictionary<string, object?> result = new()
+        {
+            { "approved", true }
+        };
+        await elsaClient.ReportTaskCompletedAsync(task.ExternalTaskId, result: result, cancellationToken: cancellationToken);
 
         task.IsCompleted = true;
         task.CompletedBy = Guid.Empty;
@@ -43,16 +47,24 @@ public class HomeController(OnboardingDbContext dbContext, ElsaClient elsaClient
 
     public async Task<IActionResult> Reject(Guid taskId, CancellationToken cancellationToken)
     {
-        var task = await dbContext.TaskRequests.FirstOrDefaultAsync(x => x.Id == taskId, cancellationToken);
+        var task = await dbContext.TaskRequests
+            .Include(p => p.WorkflowRequest)
+            .FirstOrDefaultAsync(x => x.Id == taskId, cancellationToken);
 
         if (task == null)
             return NotFound();
 
-        await elsaClient.ReportTaskCompletedAsync(task.ExternalTaskId, result: new HRReviewResult { Approved = false }, cancellationToken: cancellationToken);
+        Dictionary<string, object?> result = new()
+        {
+            { "approved", false }
+        };
+        await elsaClient.ReportTaskCompletedAsync(task.ExternalTaskId, result: result, cancellationToken: cancellationToken);
 
         task.IsCompleted = true;
         task.CompletedBy = Guid.Empty;
         task.CompletedAt = DateTimeOffset.Now;
+
+        task.WorkflowRequest.WorkflowInstanceId = null;
 
         dbContext.TaskRequests.Update(task);
         await dbContext.SaveChangesAsync(cancellationToken);

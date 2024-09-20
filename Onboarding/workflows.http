@@ -7,7 +7,7 @@ POST https://{{hostname}}:{{port}}/api/workflows/create
 Content-Type: application/json
 
 {
-    "workflowDefinitionId": "example"
+    "workflowDefinitionId": "cfcf05b58c9c29b5"
 }
 
 ###

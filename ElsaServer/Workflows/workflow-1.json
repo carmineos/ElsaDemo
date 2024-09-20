@@ -1,0 +1,392 @@
+{
+  "id": "9f504c28fde9bc0d",
+  "definitionId": "cfcf05b58c9c29b5",
+  "name": "Workflow 1",
+  "createdAt": "2024-09-20T16:33:19.1123002+00:00",
+  "version": 21,
+  "toolVersion": "3.2.0.0",
+  "variables": [
+  ],
+  "inputs": [
+    {
+      "uiHint": "singleline",
+      "storageDriverType": "Elsa.Workflows.Services.WorkflowStorageDriver, Elsa.Workflows.Core",
+      "type": "Guid",
+      "name": "WorkflowRequestId",
+      "displayName": "WorkflowRequestId",
+      "category": "Primitives",
+      "isArray": false
+    }
+  ],
+  "outputs": [
+  ],
+  "outcomes": [
+    "Approved",
+    "Rejected"
+  ],
+  "customProperties": {
+  },
+  "isReadonly": false,
+  "isSystem": false,
+  "isLatest": true,
+  "isPublished": true,
+  "options": {
+    "autoUpdateConsumingWorkflows": false
+  },
+  "root": {
+    "type": "Elsa.Flowchart",
+    "version": 1,
+    "id": "b2588f0f55ee8120",
+    "nodeId": "Workflow2:b2588f0f55ee8120",
+    "metadata": {
+    },
+    "customProperties": {
+      "source": "FlowchartJsonConverter.cs:45",
+      "notFoundConnections": [
+      ],
+      "canStartWorkflow": false,
+      "runAsynchronously": false
+    },
+    "activities": [
+      {
+        "outcomes": {
+          "typeName": "Object",
+          "expression": {
+            "type": "Literal",
+            "value": "Approved"
+          }
+        },
+        "id": "1e13801283d11cdf",
+        "nodeId": "Workflow2:b2588f0f55ee8120:1e13801283d11cdf",
+        "name": "Complete1",
+        "type": "Elsa.Complete",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 924.2350463867188,
+              "y": -180
+            },
+            "size": {
+              "width": 135.8229217529297,
+              "height": 49.333335876464844
+            }
+          }
+        }
+      },
+      {
+        "mode": {
+          "typeName": "Elsa.Workflows.Activities.Flowchart.Models.FlowJoinMode, Elsa.Workflows.Core",
+          "expression": {
+            "type": "Literal",
+            "value": "WaitAny"
+          }
+        },
+        "id": "5b45ab2669d8ac81",
+        "nodeId": "Workflow2:b2588f0f55ee8120:5b45ab2669d8ac81",
+        "name": "FlowJoin2",
+        "type": "Elsa.FlowJoin",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 330.90179443359375,
+              "y": 154.68345642089844
+            },
+            "size": {
+              "width": 97.44792175292969,
+              "height": 49.333335876464844
+            }
+          }
+        }
+      },
+      {
+        "outcomes": {
+          "typeName": "Object",
+          "expression": {
+            "type": "Literal",
+            "value": "Rejected"
+          }
+        },
+        "id": "b7497b9b72737bba",
+        "nodeId": "Workflow2:b2588f0f55ee8120:b7497b9b72737bba",
+        "name": "Complete2",
+        "type": "Elsa.Complete",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 777.568359375,
+              "y": 194.68345642089844
+            },
+            "size": {
+              "width": 135.8229217529297,
+              "height": 49.333335876464844
+            }
+          }
+        }
+      },
+      {
+        "workflowDefinitionId": "9d85bc142050a2b6",
+        "workflowDefinitionVersionId": "92e218c72a102dc5",
+        "latestAvailablePublishedVersion": 20,
+        "latestAvailablePublishedVersionId": "92e218c72a102dc5",
+        "id": "37c9012f7b329e16",
+        "nodeId": "Workflow2:b2588f0f55ee8120:37c9012f7b329e16",
+        "name": "WorkflowStep1",
+        "type": "WorkflowStep",
+        "version": 20,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": -600,
+              "y": -180
+            },
+            "size": {
+              "width": 183.1354217529297,
+              "height": 49.333335876464844
+            }
+          },
+          "displayText": "Line Manager Review"
+        },
+        "workflowStep": {
+          "typeName": "String",
+          "expression": {
+            "type": "Literal",
+            "value": "LineManagerReview"
+          },
+          "memoryReference": {
+            "id": "37c9012f7b329e16:input-workflow-step"
+          }
+        },
+        "workflowRequestId": {
+          "typeName": "Guid",
+          "expression": {
+            "type": "JavaScript",
+            "value": "return getInput(\u0022WorkflowRequestId\u0022);"
+          },
+          "memoryReference": {
+            "id": "37c9012f7b329e16:input-workflow-request-id"
+          }
+        }
+      },
+      {
+        "workflowDefinitionId": "9d85bc142050a2b6",
+        "workflowDefinitionVersionId": "92e218c72a102dc5",
+        "latestAvailablePublishedVersion": 20,
+        "latestAvailablePublishedVersionId": "92e218c72a102dc5",
+        "id": "6bbc423e8a42ab54",
+        "nodeId": "Workflow2:b2588f0f55ee8120:6bbc423e8a42ab54",
+        "name": "WorkflowStep2",
+        "type": "WorkflowStep",
+        "version": 20,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": -16,
+              "y": -180
+            },
+            "size": {
+              "width": 134.6979217529297,
+              "height": 49.333335876464844
+            }
+          },
+          "displayText": "HR Review"
+        },
+        "workflowStep": {
+          "typeName": "String",
+          "expression": {
+            "type": "Literal",
+            "value": "HRReview"
+          },
+          "memoryReference": {
+            "id": "6bbc423e8a42ab54:input-workflow-step"
+          }
+        },
+        "workflowRequestId": {
+          "typeName": "Guid",
+          "expression": {
+            "type": "JavaScript",
+            "value": "return getInput(\u0022WorkflowRequestId\u0022);"
+          },
+          "memoryReference": {
+            "id": "6bbc423e8a42ab54:input-workflow-request-id"
+          }
+        }
+      },
+      {
+        "workflowDefinitionId": "9d85bc142050a2b6",
+        "workflowDefinitionVersionId": "92e218c72a102dc5",
+        "latestAvailablePublishedVersion": 20,
+        "latestAvailablePublishedVersionId": "92e218c72a102dc5",
+        "id": "802fcd441100d237",
+        "nodeId": "Workflow2:b2588f0f55ee8120:802fcd441100d237",
+        "name": "WorkflowStep3",
+        "type": "WorkflowStep",
+        "version": 20,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": 508,
+              "y": -180
+            },
+            "size": {
+              "width": 174.14584350585938,
+              "height": 49.333335876464844
+            }
+          },
+          "displayText": "HR Manager Review"
+        },
+        "workflowStep": {
+          "typeName": "String",
+          "expression": {
+            "type": "Literal",
+            "value": "HRManagerReview"
+          },
+          "memoryReference": {
+            "id": "802fcd441100d237:input-workflow-step"
+          }
+        },
+        "workflowRequestId": {
+          "typeName": "Guid",
+          "expression": {
+            "type": "JavaScript",
+            "value": "return getInput(\u0022WorkflowRequestId\u0022);"
+          },
+          "memoryReference": {
+            "id": "802fcd441100d237:input-workflow-request-id"
+          }
+        }
+      },
+      {
+        "id": "33ec5817fc170607",
+        "nodeId": "Workflow2:b2588f0f55ee8120:33ec5817fc170607",
+        "name": "Start1",
+        "type": "Elsa.Start",
+        "version": 1,
+        "customProperties": {
+          "canStartWorkflow": false,
+          "runAsynchronously": false
+        },
+        "metadata": {
+          "designer": {
+            "position": {
+              "x": -880,
+              "y": -180
+            },
+            "size": {
+              "width": 101.3125,
+              "height": 49.333335876464844
+            }
+          }
+        }
+      }
+    ],
+    "connections": [
+      {
+        "source": {
+          "activity": "33ec5817fc170607",
+          "port": "Done"
+        },
+        "target": {
+          "activity": "37c9012f7b329e16",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "802fcd441100d237",
+          "port": "Approved"
+        },
+        "target": {
+          "activity": "1e13801283d11cdf",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "37c9012f7b329e16",
+          "port": "Rejected"
+        },
+        "target": {
+          "activity": "5b45ab2669d8ac81",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "6bbc423e8a42ab54",
+          "port": "Rejected"
+        },
+        "target": {
+          "activity": "5b45ab2669d8ac81",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "802fcd441100d237",
+          "port": "Rejected"
+        },
+        "target": {
+          "activity": "5b45ab2669d8ac81",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "5b45ab2669d8ac81",
+          "port": "Done"
+        },
+        "target": {
+          "activity": "b7497b9b72737bba",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "37c9012f7b329e16",
+          "port": "Approved"
+        },
+        "target": {
+          "activity": "6bbc423e8a42ab54",
+          "port": "In"
+        }
+      },
+      {
+        "source": {
+          "activity": "6bbc423e8a42ab54",
+          "port": "Approved"
+        },
+        "target": {
+          "activity": "802fcd441100d237",
+          "port": "In"
+        }
+      }
+    ]
+  }
+}
