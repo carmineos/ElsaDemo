@@ -1,6 +1,9 @@
 using Elsa.EntityFrameworkCore.Modules.Management;
 using Elsa.EntityFrameworkCore.Modules.Runtime;
 using Elsa.Extensions;
+using ElsaServer.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddElsa(elsa =>
@@ -8,8 +11,8 @@ builder.Services.AddElsa(elsa =>
     elsa.UseFluentStorageProvider();
 
     // Configure Management layer to use EF Core.
-    elsa.UseWorkflowManagement(management => 
-    { 
+    elsa.UseWorkflowManagement(management =>
+    {
         management.UseEntityFrameworkCore();
 
         management.AddVariableType<MyEnum>("Custom");
@@ -73,6 +76,8 @@ builder.Services.AddElsa(elsa =>
 // Add MediatR integration
 builder.Services.AddHandlersFrom<Program>();
 
+builder.Services.AddScoped<ElsaServerService>();
+
 //builder.Services.AddTransient<TestDelegatingHandler>();
 
 // Configure CORS to allow designer app hosted on a different origin to invoke the APIs.
@@ -98,10 +103,28 @@ app.UseWorkflowsApi(); // Use Elsa API endpoints.
 app.UseWorkflows(); // Use Elsa middleware to handle HTTP requests mapped to HTTP Endpoint activities.
 app.UseWorkflowsSignalRHubs(); // Optional SignalR integration. Elsa Studio uses SignalR to receive real-time updates from the server. 
 
+app.MapPost("api/workflows/update", async ([FromBody] UpdateWorkflowRequest request, [FromServices] ElsaServerService serverService, CancellationToken cancellationToken) =>
+{
+    var input = new Dictionary<string, object>
+    {
+        { "RequestData", JsonSerializer.Serialize(new { Test = "Hello" }) },
+        { "WorkflowRequestId", Guid.NewGuid() }
+    };
+
+    await serverService.UpdateInputsAsync(request.WorkflowInstanceId, input, cancellationToken);
+
+    return TypedResults.Ok();
+});
+
 app.Run();
 
 public enum MyEnum
 {
     Type1,
     Type2,
+}
+
+public class UpdateWorkflowRequest
+{
+    public string WorkflowInstanceId { get; set; }
 }

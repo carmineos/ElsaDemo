@@ -1,0 +1,10 @@
+@hostname=localhost
+@port=5001
+
+###
+POST https://{{hostname}}:{{port}}/api/workflows/update
+Content-Type: application/json
+
+{
+    "workflowInstanceId": "2e18d03d1efcc70e"
+}
