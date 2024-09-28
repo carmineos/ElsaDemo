@@ -1,3 +1,4 @@
+using Elsa.Api.Client.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Onboarding.Data;
 using Onboarding.HostedServices;
@@ -21,6 +22,15 @@ builder.Services.AddHttpClient<ElsaClient>(httpClient =>
     var apiKey = configuration["Elsa:ApiKey"]!;
     httpClient.BaseAddress = new Uri(url);
     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("ApiKey", apiKey);
+});
+
+builder.Services.AddDefaultApiClients(configure =>
+{
+    var url = configuration["Elsa:ServerUrl"]!.TrimEnd('/');
+    var apiKey = configuration["Elsa:ApiKey"]!;
+
+    configure.ApiKey = apiKey;
+    configure.BaseAddress = new Uri(url);
 });
 
 var app = builder.Build();

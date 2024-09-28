@@ -8,7 +8,12 @@ builder.Services.AddElsa(elsa =>
     elsa.UseFluentStorageProvider();
 
     // Configure Management layer to use EF Core.
-    elsa.UseWorkflowManagement(management => management.UseEntityFrameworkCore());
+    elsa.UseWorkflowManagement(management => 
+    { 
+        management.UseEntityFrameworkCore();
+
+        management.AddVariableType<MyEnum>("Custom");
+    });
 
     // Configure Runtime layer to use EF Core.
     elsa.UseWorkflowRuntime(runtime => runtime.UseEntityFrameworkCore());
@@ -94,3 +99,9 @@ app.UseWorkflows(); // Use Elsa middleware to handle HTTP requests mapped to HTT
 app.UseWorkflowsSignalRHubs(); // Optional SignalR integration. Elsa Studio uses SignalR to receive real-time updates from the server. 
 
 app.Run();
+
+public enum MyEnum
+{
+    Type1,
+    Type2,
+}

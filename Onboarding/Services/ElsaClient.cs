@@ -1,11 +1,17 @@
+using Elsa.Api.Client.Resources.WorkflowDefinitions.Contracts;
+using Elsa.Api.Client.Resources.WorkflowDefinitions.Responses;
+using Elsa.Api.Client.Resources.WorkflowDefinitions.Requests;
+using Elsa.Api.Client.Resources.WorkflowInstances.Contracts;
+using Elsa.Api.Client.Resources.WorkflowInstances.Models;
 using System.Text.Json.Nodes;
+using Elsa.Api.Client.Extensions;
 
 namespace Onboarding.Services;
 
 /// <summary>
 /// A client for the Elsa API.
 /// </summary>
-public class ElsaClient(HttpClient httpClient)
+public class ElsaClient(HttpClient httpClient, IWorkflowInstancesApi workflowInstancesApi, IExecuteWorkflowApi executeWorkflowApi)
 {
     /// <summary>
     /// Reports a task as completed.
@@ -16,47 +22,60 @@ public class ElsaClient(HttpClient httpClient)
     public async Task ReportTaskCompletedAsync(string taskId, object? result = default, CancellationToken cancellationToken = default)
     {
         var url = new Uri($"tasks/{taskId}/complete", UriKind.Relative);
-        var request = new { Result = result };
+
+        var request = new 
+        { 
+            Result = result 
+        };
+
         await httpClient.PostAsJsonAsync(url, request, cancellationToken);
     }
 
 
-    public async Task<string> StartWorklowAsync(string workflowDefinitionId, Guid workflowRequestId, string? inputPayload = default, CancellationToken cancellationToken = default)
+    public async Task<string> StartWorklowAsync(string workflowDefinitionId, Dictionary<string, object?>? inputPayload = default, CancellationToken cancellationToken = default)
     {
-        var url = new Uri($"workflow-definitions/{workflowDefinitionId}/execute", UriKind.Relative);
+        var request = new ExecuteWorkflowDefinitionRequest()
+        {
+            Input = inputPayload,
+        };
 
-        var root = new JsonObject();
-        var inputObj = new JsonObject();
-        inputObj.Add("WorkflowRequestId", workflowRequestId);
-        root["input"] = inputObj;
-
-        var response = await httpClient.PostAsJsonAsync(url, root, cancellationToken);
+        var response = await executeWorkflowApi.ExecuteAsync(workflowDefinitionId, request, cancellationToken);
 
         response.EnsureSuccessStatusCode();
 
-        var result = await response.Content.ReadFromJsonAsync<WorkflowInstance>(cancellationToken);
+        var content = await response.Content.ReadAsStringAsync(cancellationToken);
+        var result = content.ConvertTo<ExecuteWorkflowDefinitionResponse>();
 
         return result!.WorkflowState.Id;
     }
 
     public async Task<WorkflowInstance?> GetWorkflowInstanceAsync(string workflowInstanceId, CancellationToken cancellationToken = default)
     {
-        var url = new Uri($"workflow-instances/{workflowInstanceId}", UriKind.Relative);
+        return await workflowInstancesApi.GetAsync(workflowInstanceId, cancellationToken);
+    }
 
-        var response = await httpClient.GetFromJsonAsync<WorkflowInstance>(url, cancellationToken);
+    public async Task UpdateInputsAsync(string workflowInstanceId, Dictionary<string, object> input, CancellationToken cancellationToken = default)
+    {
 
-        return response;
+        var instance =  await workflowInstancesApi.GetAsync(workflowInstanceId, cancellationToken);
+
+        if (instance is null)
+            return;
+
+        instance.WorkflowState.Input ??= new Dictionary<string, object>();
+
+        foreach (var kvp in input)
+        {
+            // Try to Add
+            if(!instance.WorkflowState.Input.TryAdd(kvp.Key, kvp.Value))
+            {
+                // Otherwise replace it
+                if (instance.WorkflowState.Input.Remove(kvp.Key))
+                    instance.WorkflowState.Input.TryAdd(kvp.Key, kvp.Value);
+            }
+        }
+
+        // TODO: WorkflowInstanceStore not exposed
     }
 }
 
-
-public class WorkflowInstance
-{
-    public WorkflowState WorkflowState { get; set; } = default!;
-}
-
-public class WorkflowState
-{
-    public string Id { get; set; } = default!;
-    public string DefinitionId { get; set; } = default!;
-}

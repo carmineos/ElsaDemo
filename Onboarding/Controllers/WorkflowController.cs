@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Onboarding.Data;
 using Onboarding.Data.Models.Workflows;
 using Onboarding.Services;
-using System.Text.Json;
 
 namespace Onboarding.Controllers;
 
@@ -62,18 +61,50 @@ public class WorkflowsController(OnboardingDbContext dbContext, ElsaClient elsaC
             return NotFound();
         }
 
-        if(workflowRequest.WorkflowInstanceId is not null)
+        if (workflowRequest.WorkflowInstanceId is not null)
         {
             return BadRequest("Workflow already started");
         }
 
-        workflowRequest.WorkflowInstanceId = await _elsaClient.StartWorklowAsync(workflowRequest.WorkflowDefinitionId, workflowRequest.Id, null, cancellationToken);
+        var input = new Dictionary<string, object?>()
+        {
+            { "WorkflowRequestId", workflowRequest.Id },
+            { "RequestData", workflowRequest } // Example
+        };
+
+        workflowRequest.WorkflowInstanceId = await _elsaClient.StartWorklowAsync(workflowRequest.WorkflowDefinitionId, input, cancellationToken);
 
         _dbContext.Update(workflowRequest);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return Ok(workflowRequest.Id);
+    }
+
+    [HttpPost("update")]
+    public async Task<IActionResult> Update(UpdateWorkflowRequest request, CancellationToken cancellationToken)
+    {
+        var workflowRequest = await _dbContext.WorkflowRequests
+            .AsNoTracking()
+            .SingleOrDefaultAsync(r => r.Id == request.WorkflowRequestId, cancellationToken);
+
+        if (workflowRequest is null)
+        {
+            return NotFound();
+        }
+
+        var input = new Dictionary<string, object?>()
+        {
+            { "WorkflowRequestId", workflowRequest.Id },
+            { "RequestData", workflowRequest }, // Example
+            { "WORKS", true }
+        };
+
+        await _elsaClient.UpdateInputsAsync(workflowRequest.WorkflowInstanceId, input, cancellationToken);
+
+        _dbContext.Update(workflowRequest);
+
+        return Ok();
     }
 }
 
@@ -83,6 +114,11 @@ public record CreateWorkflowRequest
 }
 
 public record StartWorkflowRequest
+{
+    public Guid WorkflowRequestId { get; set; }
+}
+
+public record UpdateWorkflowRequest
 {
     public Guid WorkflowRequestId { get; set; }
 }

@@ -17,3 +17,11 @@ Content-Type: application/json
 {
     "workflowRequestId": {{createRequest.response.body.*}}
 }
+
+###
+POST https://{{hostname}}:{{port}}/api/workflows/update
+Content-Type: application/json
+
+{
+    "workflowRequestId": {{createRequest.response.body.*}}
+}
